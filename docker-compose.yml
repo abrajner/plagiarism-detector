@@ -1,0 +1,21 @@
+version: '3'
+services:
+  java:
+    build:
+      context: .
+      dockerfile: docker/java/Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./target/plagiarism-detector.jar:/plagiarism-detector.jar
+    depends_on:
+      - postgres
+    command: "bash -c while !</dev/tcp/postgres/5432; do sleep 1; done; java -jar plagiarism-detector.jar"
+  postgres:
+    build: docker/postgresql
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DATABASES: database
