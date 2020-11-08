@@ -7,7 +7,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./server/target/plagiarism-detector.jar:/plagiarism-detector.jar
+      - ./target/plagiarism-detector.jar:/plagiarism-detector.jar
     depends_on:
       - postgres
     command: "java -jar plagiarism-detector.jar"
