@@ -19,13 +19,13 @@ public class FileGroupEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = Defaults.CommonEntityColumns.ID, nullable = false)
+    @Column(name = Defaults.CommonEntityColumns.ID)
     private Long id;
     
-    @Column(name = Defaults.CommonEntityColumns.FILE_ID)
+    @Column(name = Defaults.CommonEntityColumns.FILE_ID, nullable = false)
     private Long fileId;
     
-    @Column(name = Defaults.CommonEntityColumns.GROUP_ID)
+    @Column(name = Defaults.CommonEntityColumns.GROUP_ID, nullable = false)
     private Long groupId;
     
     @Column(name = Defaults.FileGroupEntityColumns.IS_FILE_ACTIVE_IN_GROUP)

@@ -19,13 +19,13 @@ public class FileReportEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = Defaults.CommonEntityColumns.ID, nullable = false)
+    @Column(name = Defaults.CommonEntityColumns.ID)
     private Long id;
     
-    @Column(name = Defaults.CommonEntityColumns.REPORT_ID)
+    @Column(name = Defaults.CommonEntityColumns.REPORT_ID, nullable = false)
     private Long reportId;
     
-    @Column(name = Defaults.CommonEntityColumns.FILE_ID)
+    @Column(name = Defaults.CommonEntityColumns.FILE_ID, nullable = false)
     private Long fileId;
     
     public FileReportEntity(){

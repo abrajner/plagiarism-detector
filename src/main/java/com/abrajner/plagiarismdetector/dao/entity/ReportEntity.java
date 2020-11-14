@@ -19,7 +19,7 @@ public class ReportEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = Defaults.CommonEntityColumns.ID, nullable = false)
+    @Column(name = Defaults.CommonEntityColumns.ID)
     private Long id;
     
     @Column(name = Defaults.ReportEntityColumns.IS_PLAGIARISM)

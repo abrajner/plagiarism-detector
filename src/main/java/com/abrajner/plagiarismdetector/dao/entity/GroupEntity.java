@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.abrajner.plagiarismdetector.common.Defaults;
@@ -19,10 +20,10 @@ public class GroupEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = Defaults.CommonEntityColumns.ID, nullable = false)
+    @Column(name = Defaults.CommonEntityColumns.ID)
     private Long id;
     
-    @Column(name = Defaults.CommonEntityColumns.USER_ID)
+    @Column(name = Defaults.CommonEntityColumns.USER_ID, nullable = false)
     private Long userId;
     
     @Column(name = Defaults.GroupEntityColumns.GROUP_NAME)

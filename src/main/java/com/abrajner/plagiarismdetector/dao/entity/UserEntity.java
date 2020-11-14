@@ -20,22 +20,22 @@ public class UserEntity implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = Defaults.CommonEntityColumns.ID, nullable = false)
+    @Column(name = Defaults.CommonEntityColumns.ID)
     private Long id;
     
-    @Column(name = Defaults.UserEntityColumns.LOGIN)
+    @Column(name = Defaults.UserEntityColumns.LOGIN, nullable = false)
     private String login;
     
-    @Column(name = Defaults.UserEntityColumns.PASSWORD)
+    @Column(name = Defaults.UserEntityColumns.PASSWORD, nullable = false)
     private String password;
     
-    @Column(name = Defaults.UserEntityColumns.FIRST_NAME)
+    @Column(name = Defaults.UserEntityColumns.FIRST_NAME, nullable = false)
     private String firstName;
     
-    @Column(name = Defaults.UserEntityColumns.LAST_NAME)
+    @Column(name = Defaults.UserEntityColumns.LAST_NAME, nullable = false)
     private String lastName;
     
-    @Column(name = Defaults.UserEntityColumns.EMAIL)
+    @Column(name = Defaults.UserEntityColumns.EMAIL, nullable = false)
     private String email;
     
     @Column(name = Defaults.UserEntityColumns.IS_ACTIVE)

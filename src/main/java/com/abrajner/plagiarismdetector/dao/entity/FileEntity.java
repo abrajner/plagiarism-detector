@@ -20,13 +20,13 @@ public class FileEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = Defaults.CommonEntityColumns.ID, nullable = false)
+    @Column(name = Defaults.CommonEntityColumns.ID)
     private Long id;
     
-    @Column(name = Defaults.CommonEntityColumns.USER_ID)
+    @Column(name = Defaults.CommonEntityColumns.USER_ID, nullable = false)
     private Long userId;
     
-    @Column(name = Defaults.FileEntityColumns.ATTACHMENT_NAME)
+    @Column(name = Defaults.FileEntityColumns.ATTACHMENT_NAME, nullable = false)
     private String attachmentName;
     
     @Column(name = Defaults.FileEntityColumns.IS_ACTIVE)
