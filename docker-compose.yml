@@ -11,6 +11,11 @@ services:
     depends_on:
       - postgres
     command: "java -jar plagiarism-detector.jar"
+    environment:
+      username: postgres
+      password: password
+      database: database
+      host_name: postgres
   postgres:
     build: docker/postgresql
     ports:
@@ -18,4 +23,4 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DATABASES: database
+      POSTGRES_DB: database
