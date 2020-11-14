@@ -19,7 +19,7 @@ public class UserEntity implements Serializable {
     static final String TABLE_NAME = "users";
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = Defaults.CommonEntityColumns.ID)
     private Long id;
     

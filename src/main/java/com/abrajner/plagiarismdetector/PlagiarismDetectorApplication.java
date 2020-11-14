@@ -24,10 +24,11 @@ public class PlagiarismDetectorApplication {
 				.firstName("ala")
 				.lastName("brajner")
 				.login("abrajner")
+				.password("passwd")
 				.build();
 		this.userRepository.save(user);
 		
-		return "Hello";
+		return String.valueOf(this.userRepository.count());
 	}
 	
 	public static void main(final String[] args) {

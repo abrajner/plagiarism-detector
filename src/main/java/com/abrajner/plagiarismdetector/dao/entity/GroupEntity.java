@@ -19,7 +19,7 @@ public class GroupEntity {
     static final String TABLE_NAME = "groups";
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = Defaults.CommonEntityColumns.ID)
     private Long id;
     

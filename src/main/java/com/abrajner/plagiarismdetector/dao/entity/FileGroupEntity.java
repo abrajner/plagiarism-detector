@@ -18,7 +18,7 @@ public class FileGroupEntity {
     static final String TABLE_NAME = "fileGroups";
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = Defaults.CommonEntityColumns.ID)
     private Long id;
     
