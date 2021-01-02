@@ -2,14 +2,10 @@ package com.abrajner.plagiarismdetector.gui.dto;
 
 import java.util.Objects;
 
-import com.sun.istack.NotNull;
-
 public class UserLoginDto {
     
-    @NotNull
     private String password;
     
-    @NotNull
     private String login;
     
     public String getPassword() {
@@ -26,6 +22,14 @@ public class UserLoginDto {
     
     public void setLogin(final String login) {
         this.login = login;
+    }
+    
+    @Override
+    public String toString() {
+        return "UserLoginDto{" +
+                "password='" + this.password + '\'' +
+                ", login='" + this.login + '\'' +
+                '}';
     }
     
     @Override

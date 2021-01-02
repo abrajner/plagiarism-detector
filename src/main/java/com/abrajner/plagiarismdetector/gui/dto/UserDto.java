@@ -65,6 +65,18 @@ public class UserDto {
     }
     
     @Override
+    public String toString() {
+        return "UserDto{" +
+                "id=" + this.id +
+                ", login='" + this.login + '\'' +
+                ", firstName='" + this.firstName + '\'' +
+                ", lastName='" + this.lastName + '\'' +
+                ", email='" + this.email + '\'' +
+                ", isActive=" + this.isActive +
+                '}';
+    }
+    
+    @Override
     public boolean equals(final Object o) {
         if (this == o)
             return true;
