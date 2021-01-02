@@ -29,8 +29,11 @@ public final class Defaults {
     }
     
     public static final class FileEntityColumns{
-        public static final String ATTACHMENT_NAME = "attachment_name";
-        public static final String IS_ACTIVE = "active";
+        public static final String FILE_NAME = "file_name";
+        public static final String IS_ACTIVE = "is_active";
+        public static final String FILE_CONTENT = "file_content";
+        public static final String PARSED_FILE_CONTENT = "parsed_file_content";
+        public static final String FILE_AUTHOR = "file_author";
     }
     
     public static final class FileGroupEntityColumns{

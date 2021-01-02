@@ -1,6 +1,5 @@
 package com.abrajner.plagiarismdetector.dao.entity;
 
-import java.io.File;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -16,7 +15,7 @@ import com.abrajner.plagiarismdetector.common.Defaults;
 @Table(name = FileEntity.TABLE_NAME)
 public class FileEntity {
     
-    static final String TABLE_NAME = "files";
+    static final String TABLE_NAME = "file";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,8 +25,17 @@ public class FileEntity {
     @Column(name = Defaults.CommonEntityColumns.USER_ID, nullable = false)
     private Long userId;
     
-    @Column(name = Defaults.FileEntityColumns.ATTACHMENT_NAME, nullable = false)
-    private String attachmentName;
+    @Column(name = Defaults.FileEntityColumns.FILE_NAME, nullable = false)
+    private String fileName;
+    
+    @Column(name = Defaults.FileEntityColumns.FILE_AUTHOR)
+    private String fileAuthor;
+    
+    @Column(name = Defaults.FileEntityColumns.FILE_CONTENT, nullable = false)
+    private String fileContent;
+    
+    @Column(name = Defaults.FileEntityColumns.PARSED_FILE_CONTENT, nullable = false)
+    private String parsedFileContent;
     
     @Column(name = Defaults.FileEntityColumns.IS_ACTIVE)
     private boolean isActive;
@@ -38,7 +46,10 @@ public class FileEntity {
     private FileEntity(final Builder builder){
         this.setId(builder.id);
         this.setUserId(builder.userId);
-        this.setAttachmentName(builder.attachmentName);
+        this.setFileName(builder.fileName);
+        this.setFileContent(builder.fileContent);
+        this.setParsedFileContent(builder.parsedFileContent);
+        this.setFileAuthor(builder.fileAuthor);
         this.setActive(builder.isActive);
     }
     
@@ -58,12 +69,36 @@ public class FileEntity {
         this.userId = userId;
     }
     
-    public String getAttachmentName() {
-        return this.attachmentName;
+    public String getFileName() {
+        return this.fileName;
     }
     
-    public void setAttachmentName(final String attachmentName) {
-        this.attachmentName = attachmentName;
+    public void setFileName(final String fileName){
+        this.fileName = fileName;
+    }
+    
+    public String getFileAuthor() {
+        return this.fileAuthor;
+    }
+    
+    public void setFileAuthor(final String fileAuthor) {
+        this.fileAuthor = fileAuthor;
+    }
+    
+    public String getFileContent() {
+        return this.fileContent;
+    }
+    
+    public void setFileContent(final String fileContent) {
+        this.fileContent = fileContent;
+    }
+    
+    public String getParsedFileContent() {
+        return this.parsedFileContent;
+    }
+    
+    public void setParsedFileContent(final String parsedFileContent) {
+        this.parsedFileContent = parsedFileContent;
     }
     
     public boolean isActive() {
@@ -77,10 +112,13 @@ public class FileEntity {
     @Override
     public String toString() {
         return "FileEntity{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", attachmentName='" + attachmentName + '\'' +
-                ", isActive=" + isActive +
+                "id=" + this.id +
+                ", userId=" + this.userId +
+                ", fileName='" + this.fileName +
+                ", fileAuthor='" + this.fileAuthor +
+                ", fileContent='" + this.fileContent +
+                ", parsedFileContent='" + this.parsedFileContent +
+                ", isActive=" + this.isActive +
                 '}';
     }
     
@@ -94,18 +132,24 @@ public class FileEntity {
         return this.isActive == that.isActive &&
                 Objects.equals(this.id, that.id) &&
                 Objects.equals(this.userId, that.userId) &&
-                Objects.equals(this.attachmentName, that.attachmentName);
+                Objects.equals(this.fileName, that.fileName) &&
+                Objects.equals(this.fileAuthor, that.fileAuthor) &&
+                Objects.equals(this.fileContent, that.fileContent) &&
+                Objects.equals(this.parsedFileContent, that.parsedFileContent);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.userId, this.attachmentName, this.isActive);
+        return Objects.hash(this.id, this.userId, this.fileName, this.fileAuthor, this.fileContent, this.parsedFileContent, this.isActive);
     }
     
     public static final class Builder{
         private Long id;
         private Long userId;
-        private String attachmentName;
+        private String fileName;
+        private String fileAuthor;
+        private String fileContent;
+        private String parsedFileContent;
         private boolean isActive;
         
         public Builder id(final Long id){
@@ -118,8 +162,23 @@ public class FileEntity {
             return this;
         }
         
-        public Builder attachmentName(final String attachmentName){
-            this.attachmentName = attachmentName;
+        public Builder fileName(final String fileName){
+            this.fileName = fileName;
+            return this;
+        }
+    
+        public Builder fileAuthor(final String fileAuthor){
+            this.fileAuthor = fileAuthor;
+            return this;
+        }
+    
+        public Builder fileContent(final String fileContent){
+            this.fileContent = fileContent;
+            return this;
+        }
+    
+        public Builder parsedFileContent(final String parsedFileContent){
+            this.parsedFileContent = parsedFileContent;
             return this;
         }
         

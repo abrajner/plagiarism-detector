@@ -20,9 +20,6 @@ public class PlagiarismDetectorApplication {
 	@RequestMapping("/test")
 	public String home() {
 		final UserEntity user = new UserEntity.Builder()
-				.email("ala.brajner")
-				.firstName("ala")
-				.lastName("brajner")
 				.login("abrajner")
 				.password("passwd")
 				.build();

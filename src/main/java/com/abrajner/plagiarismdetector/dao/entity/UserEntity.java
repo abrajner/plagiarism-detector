@@ -29,13 +29,13 @@ public class UserEntity implements Serializable {
     @Column(name = Defaults.UserEntityColumns.PASSWORD, nullable = false)
     private String password;
     
-    @Column(name = Defaults.UserEntityColumns.FIRST_NAME, nullable = false)
+    @Column(name = Defaults.UserEntityColumns.FIRST_NAME)
     private String firstName;
     
-    @Column(name = Defaults.UserEntityColumns.LAST_NAME, nullable = false)
+    @Column(name = Defaults.UserEntityColumns.LAST_NAME)
     private String lastName;
     
-    @Column(name = Defaults.UserEntityColumns.EMAIL, nullable = false)
+    @Column(name = Defaults.UserEntityColumns.EMAIL)
     private String email;
     
     @Column(name = Defaults.UserEntityColumns.IS_ACTIVE)

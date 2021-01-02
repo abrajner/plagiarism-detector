@@ -15,7 +15,7 @@ import com.abrajner.plagiarismdetector.common.Defaults;
 @Table(name = ReportEntity.TABLE_NAME)
 public class ReportEntity {
     
-    static final String TABLE_NAME = "reports";
+    static final String TABLE_NAME = "report";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

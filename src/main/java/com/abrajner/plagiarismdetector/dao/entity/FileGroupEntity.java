@@ -4,27 +4,25 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
 
 import com.abrajner.plagiarismdetector.common.Defaults;
+import com.abrajner.plagiarismdetector.dao.compositekey.FileGroupId;
 
 @Entity
 @Table(name = FileGroupEntity.TABLE_NAME)
+@IdClass(FileGroupId.class)
 public class FileGroupEntity {
     
-    static final String TABLE_NAME = "fileGroups";
+    static final String TABLE_NAME = "fileGroup";
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = Defaults.CommonEntityColumns.ID)
-    private Long id;
-    
     @Column(name = Defaults.CommonEntityColumns.FILE_ID, nullable = false)
     private Long fileId;
     
+    @Id
     @Column(name = Defaults.CommonEntityColumns.GROUP_ID, nullable = false)
     private Long groupId;
     
@@ -35,20 +33,11 @@ public class FileGroupEntity {
     }
     
     private FileGroupEntity(final Builder builder){
-        this.setId(builder.id);
         this.setFileId(builder.fileId);
         this.setGroupId(builder.groupId);
         this.setFileActiveInGroup(builder.isFileActiveInGroup);
     }
-    
-    public void setId(final Long userId) {
-        this.id = userId;
-    }
-    
-    public Long getId() {
-        return this.id;
-    }
-    
+
     public Long getFileId() {
         return this.fileId;
     }
@@ -76,10 +65,9 @@ public class FileGroupEntity {
     @Override
     public String toString() {
         return "FileGroupEntity{" +
-                "id=" + id +
-                ", fileId=" + fileId +
-                ", groupId=" + groupId +
-                ", isFileActiveInGroup=" + isFileActiveInGroup +
+                "fileId=" + this.fileId +
+                ", groupId=" + this.groupId +
+                ", isFileActiveInGroup=" + this.isFileActiveInGroup +
                 '}';
     }
     
@@ -91,27 +79,19 @@ public class FileGroupEntity {
             return false;
         final FileGroupEntity that = (FileGroupEntity) o;
         return this.isFileActiveInGroup == that.isFileActiveInGroup &&
-                Objects.equals(this.id, that.id) &&
                 Objects.equals(this.fileId, that.fileId) &&
                 Objects.equals(this.groupId, that.groupId);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.fileId, this.groupId, this.isFileActiveInGroup);
+        return Objects.hash(this.fileId, this.groupId, this.isFileActiveInGroup);
     }
     
     public static final class Builder{
-        private Long id;
         private Long fileId;
         private Long groupId;
         private boolean isFileActiveInGroup;
-        
-        public Builder id(final Long id){
-            this.id = id;
-            
-            return this;
-        }
         
         public Builder fileId(final Long fileId){
             this.fileId = fileId;
