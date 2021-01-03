@@ -37,7 +37,7 @@ public class GroupServiceImpl implements GroupService {
     
     @Override
     public void checkIfGroupAlreadyExistsForUser(final Long userId, final String groupName) {
-        if(!this.groupRepository.getAllByGroupNameAndUserId(groupName, userId).isPresent()){
+        if(this.groupRepository.getAllByGroupNameAndUserId(groupName, userId).isPresent()){
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Group with this name already exists");
         }
     }

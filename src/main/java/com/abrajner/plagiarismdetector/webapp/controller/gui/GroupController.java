@@ -30,13 +30,13 @@ public class GroupController extends AbstractGuiController {
     
     @PostMapping(path = "/groups", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public UserGroupDto addNewGroup(@RequestBody final GroupDto groupDto,
-                                    @RequestHeader("Authentication") final Optional<String> token){
+                                    @RequestHeader("Authorization") final Optional<String> token){
         final UserDto userDto = this.checkAuthenticationToken(token.orElse(""));
         return this.groupApplicationService.validateAndSaveNewGroup(userDto.getId(), groupDto);
     }
     
     @GetMapping(path = "/groups", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public List<UserGroupDto> getAllUserGroups(@RequestHeader("Authentication") final Optional<String> token){
+    public List<UserGroupDto> getAllUserGroups(@RequestHeader("Authorization") final Optional<String> token){
         final UserDto userDto = this.checkAuthenticationToken(token.orElse(""));
         return this.groupApplicationService.getAllUsersGroups(userDto.getId());
     }
