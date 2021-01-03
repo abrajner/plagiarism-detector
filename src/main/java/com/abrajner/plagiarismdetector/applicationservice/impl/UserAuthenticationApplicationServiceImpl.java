@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.abrajner.plagiarismdetector.applicationservice.UserAuthenticationApplicationService;
 import com.abrajner.plagiarismdetector.common.JwtUtil;
 import com.abrajner.plagiarismdetector.core.user.UserService;
+import com.abrajner.plagiarismdetector.gui.dto.AuthenticationTokenDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserLoginDto;
 import com.abrajner.plagiarismdetector.mapper.UserMapper;
@@ -31,9 +32,11 @@ public class UserAuthenticationApplicationServiceImpl implements UserAuthenticat
     }
     
     @Override
-    public String generateUserAuthenticationToken(final UserLoginDto userLoginDto) {
+    public AuthenticationTokenDto generateUserAuthenticationToken(final UserLoginDto userLoginDto) {
         this.validator.validate(userLoginDto);
-        return JwtUtil.generateToken(this.userService.checkUserLoginCredentials(userLoginDto));
+        final AuthenticationTokenDto authenticationTokenDto = new AuthenticationTokenDto();
+        authenticationTokenDto.setAuthenticationToken(JwtUtil.generateToken(this.userService.checkUserLoginCredentials(userLoginDto)));
+        return authenticationTokenDto;
     }
     
     @Override
