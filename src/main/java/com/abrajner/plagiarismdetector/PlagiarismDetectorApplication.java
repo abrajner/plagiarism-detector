@@ -38,8 +38,8 @@ public class PlagiarismDetectorApplication {
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://localhost:8080");
+			public void addCorsMappings(final CorsRegistry registry) {
+				registry.addMapping("/**");
 			}
 		};
 	}
