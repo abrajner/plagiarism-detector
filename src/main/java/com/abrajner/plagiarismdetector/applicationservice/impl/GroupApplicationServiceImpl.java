@@ -3,7 +3,6 @@ package com.abrajner.plagiarismdetector.applicationservice.impl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.abrajner.plagiarismdetector.applicationservice.GroupApplicationService;
@@ -11,28 +10,29 @@ import com.abrajner.plagiarismdetector.core.user.GroupService;
 import com.abrajner.plagiarismdetector.gui.dto.GroupDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserGroupDto;
 import com.abrajner.plagiarismdetector.mapper.GroupMapper;
-import com.abrajner.plagiarismdetector.validator.AbstractValidator;
+import com.abrajner.plagiarismdetector.validator.GroupValidator;
+import com.abrajner.plagiarismdetector.validator.Validator;
 
 @Service
 public class GroupApplicationServiceImpl implements GroupApplicationService {
     
     final GroupService groupService;
     
-    final AbstractValidator validator;
+    final Validator validator;
     
     final GroupMapper groupMapper;
     
     public GroupApplicationServiceImpl(final GroupService groupService,
-                                       @Qualifier("abstractValidator") final AbstractValidator validator,
-                                       final GroupMapper groupMapper) {
+                                       final GroupMapper groupMapper,
+                                       final GroupValidator groupValidator) {
         this.groupService = groupService;
-        this.validator = validator;
+        this.validator = groupValidator;
         this.groupMapper = groupMapper;
     }
     
     @Override
     public UserGroupDto validateAndSaveNewGroup(final Long userId, final GroupDto groupDto) {
-        
+        this.validator.validate(groupDto);
         this.groupService.checkIfGroupAlreadyExistsForUser(userId, groupDto.getGroupName());
         return this.groupMapper.convertToDto(this.groupService.saveNewGroupInDatabase(this.creteNewUserGroup(userId, groupDto)));
     }

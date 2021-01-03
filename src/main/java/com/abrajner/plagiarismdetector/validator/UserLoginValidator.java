@@ -7,7 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.abrajner.plagiarismdetector.gui.dto.UserLoginDto;
 
 @Component
-public class UserLoginValidator extends AbstractValidator {
+public class UserLoginValidator extends Validator {
     
     @Override
     public void validate(final Object o) {

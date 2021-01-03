@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.abrajner.plagiarismdetector.gui.dto.UserRegistrationDto;
 
 @Component
-public class UserRegistrationValidator extends AbstractValidator {
+public class UserRegistrationValidator extends Validator {
     
     @Override
     public void validate(final Object o) {

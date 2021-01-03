@@ -8,7 +8,7 @@ import com.abrajner.plagiarismdetector.gui.dto.UserDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserRegistrationDto;
 import com.abrajner.plagiarismdetector.mapper.UserMapper;
 import com.abrajner.plagiarismdetector.validator.UserRegistrationValidator;
-import com.abrajner.plagiarismdetector.validator.AbstractValidator;
+import com.abrajner.plagiarismdetector.validator.Validator;
 
 @Service
 public class UserApplicationServiceImpl implements UserApplicationService {
@@ -17,7 +17,7 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     
     private final UserService userService;
     
-    private final AbstractValidator validator;
+    private final Validator validator;
     
     public UserApplicationServiceImpl(final UserMapper userMapper,
                                       final UserService userService,
