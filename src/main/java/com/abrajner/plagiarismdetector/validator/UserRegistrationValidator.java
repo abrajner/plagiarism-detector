@@ -17,7 +17,5 @@ public class UserRegistrationValidator extends Validator {
         this.validateEmail(o.getEmail());
         this.validatePassword(o.getPassword());
         this.validateRepeatedPassword(o.getPassword(), o.getRepeatedPassword());
-        this.validateOptionalTextField(o.getFirstName(), "first name");
-        this.validateOptionalTextField(o.getLastName(), "last name");
     }
 }

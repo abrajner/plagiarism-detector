@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.abrajner.plagiarismdetector.dao.entity.GroupEntity;
-import com.abrajner.plagiarismdetector.dao.entity.UserEntity;
 
 @Repository
 public interface GroupRepository extends JpaRepository<GroupEntity, Long> {
@@ -15,4 +14,6 @@ public interface GroupRepository extends JpaRepository<GroupEntity, Long> {
     Optional<GroupEntity> getAllByGroupNameAndUserId(final String groupName, final Long userId);
     
     List<GroupEntity> getAllByUserId(final Long userId);
+    
+    GroupEntity getAllById(final Long groupId);
 }

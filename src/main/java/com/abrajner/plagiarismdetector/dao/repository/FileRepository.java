@@ -8,5 +8,6 @@ import com.abrajner.plagiarismdetector.dao.entity.UserEntity;
 
 @Repository
 public interface FileRepository extends JpaRepository<FileEntity, Long> {
-
+    
+    FileEntity getAllById(final Long fileId);
 }
