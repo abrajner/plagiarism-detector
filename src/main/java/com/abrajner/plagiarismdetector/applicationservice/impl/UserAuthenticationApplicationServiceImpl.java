@@ -10,8 +10,8 @@ import com.abrajner.plagiarismdetector.core.user.UserService;
 import com.abrajner.plagiarismdetector.gui.dto.UserDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserLoginDto;
 import com.abrajner.plagiarismdetector.mapper.UserMapper;
-import com.abrajner.plagiarismdetector.validator.UserRegistrationValidator;
-import com.abrajner.plagiarismdetector.validator.Validator;
+import com.abrajner.plagiarismdetector.validator.UserLoginValidator;
+import com.abrajner.plagiarismdetector.validator.AbstractValidator;
 
 @Service
 public class UserAuthenticationApplicationServiceImpl implements UserAuthenticationApplicationService {
@@ -20,17 +20,19 @@ public class UserAuthenticationApplicationServiceImpl implements UserAuthenticat
     
     private final UserMapper userMapper;
     
-    private final Validator validator;
+    private final AbstractValidator validator;
     
     public UserAuthenticationApplicationServiceImpl(final UserService userService,
-                                                    final UserMapper userMapper) {
+                                                    final UserMapper userMapper,
+                                                    final UserLoginValidator validator) {
         this.userService = userService;
         this.userMapper = userMapper;
-        this.validator = new UserRegistrationValidator();
+        this.validator = validator;
     }
     
     @Override
     public String generateUserAuthenticationToken(final UserLoginDto userLoginDto) {
+        this.validator.validate(userLoginDto);
         return JwtUtil.generateToken(this.userService.checkUserLoginCredentials(userLoginDto));
     }
     

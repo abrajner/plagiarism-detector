@@ -28,6 +28,9 @@ public class GroupEntity {
     @Column(name = Defaults.GroupEntityColumns.GROUP_NAME)
     private String groupName;
     
+    @Column(name = Defaults.GroupEntityColumns.PROGRAMMING_LANGUAGE)
+    private String programmingLanguage;
+    
     public GroupEntity(){
     }
     
@@ -35,6 +38,7 @@ public class GroupEntity {
         this.setId(builder.id);
         this.setUserId(builder.userId);
         this.setGroupName(builder.groupName);
+        this.setProgrammingLanguage(builder.programmingLanguage);
     }
     
     public Long getId() {
@@ -61,12 +65,21 @@ public class GroupEntity {
         this.groupName = groupName;
     }
     
+    public String getProgrammingLanguage() {
+        return this.programmingLanguage;
+    }
+    
+    public void setProgrammingLanguage(final String programmingLanguage) {
+        this.programmingLanguage = programmingLanguage;
+    }
+    
     @Override
     public String toString() {
         return "GroupEntity{" +
                 "id=" + this.id +
                 ", userId=" + this.userId +
                 ", groupName='" + this.groupName + '\'' +
+                ", programmingLanguage='" + this.programmingLanguage + '\'' +
                 '}';
     }
     
@@ -79,19 +92,21 @@ public class GroupEntity {
         final GroupEntity that = (GroupEntity) o;
         return Objects.equals(this.id, that.id) &&
                 Objects.equals(this.userId, that.userId) &&
-                Objects.equals(this.groupName, that.groupName);
+                Objects.equals(this.groupName, that.groupName) &&
+                Objects.equals(this.programmingLanguage, that.programmingLanguage);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.userId, this.groupName);
+        return Objects.hash(this.id, this.userId, this.groupName, this.programmingLanguage);
     }
     
     public static final class Builder{
         private Long id;
         private Long userId;
         private String groupName;
-        
+        private String programmingLanguage;
+    
         public Builder id(final Long id){
             this.id = id;
             
@@ -107,6 +122,12 @@ public class GroupEntity {
         public Builder groupName(final String groupName){
             this.groupName = groupName;
         
+            return this;
+        }
+        
+        public Builder programmingLanguage(final String programmingLanguage){
+            this.programmingLanguage = programmingLanguage;
+            
             return this;
         }
         

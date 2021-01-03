@@ -2,9 +2,11 @@ package com.abrajner.plagiarismdetector.validator;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.server.ResponseStatusException;
 
-public abstract class Validator {
+@Controller
+public abstract class AbstractValidator {
     
     public abstract void validate (Object o);
     

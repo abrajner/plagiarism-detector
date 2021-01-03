@@ -42,5 +42,6 @@ public final class Defaults {
     
     public static final class GroupEntityColumns{
         public static final String GROUP_NAME = "group_name";
+        public static final String PROGRAMMING_LANGUAGE = "programming_language";
     }
 }

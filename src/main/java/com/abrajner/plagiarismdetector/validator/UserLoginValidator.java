@@ -1,11 +1,13 @@
 package com.abrajner.plagiarismdetector.validator;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.abrajner.plagiarismdetector.gui.dto.UserLoginDto;
 
-public class UserLoginValidator extends Validator{
+@Component
+public class UserLoginValidator extends AbstractValidator {
     
     @Override
     public void validate(final Object o) {
