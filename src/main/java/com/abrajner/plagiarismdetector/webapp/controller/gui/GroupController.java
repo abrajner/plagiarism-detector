@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.abrajner.plagiarismdetector.applicationservice.GroupApplicationService;
 import com.abrajner.plagiarismdetector.applicationservice.UserAuthenticationApplicationService;
-import com.abrajner.plagiarismdetector.core.user.GroupService;
 import com.abrajner.plagiarismdetector.gui.dto.GroupDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserGroupDto;
@@ -52,7 +51,7 @@ public class GroupController extends AbstractGuiController {
         return this.groupApplicationService.updateGroupData(Long.valueOf(groupId), userDto.getId(), groupDto);
     }
     
-    @GetMapping(path = "/groups/{group_id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(path = "/groups/{group_id}", produces = {MediaType.APPLICATION_JSON_VALUE})
     public UserGroupDto getGroupById(@RequestHeader("Authorization") final Optional<String> token,
                                      @PathVariable("group_id") final String groupId){
             this.checkAuthenticationToken(token.orElse(""));
