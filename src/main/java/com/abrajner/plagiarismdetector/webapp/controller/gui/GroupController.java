@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,5 +41,13 @@ public class GroupController extends AbstractGuiController {
     public List<UserGroupDto> getAllUserGroups(@RequestHeader("Authorization") final Optional<String> token){
         final UserDto userDto = this.checkAuthenticationToken(token.orElse(""));
         return this.groupApplicationService.getAllUsersGroups(userDto.getId());
+    }
+    
+    @PutMapping(path = "/groups/{group_id}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public UserGroupDto editGroupData(@RequestBody final GroupDto groupDto,
+                                      @RequestHeader("Authorization") final Optional<String> token,
+                                      @PathVariable("group_id") final String groupId){
+        final UserDto userDto = this.checkAuthenticationToken(token.orElse(""));
+        return this.groupApplicationService.updateGroupData(Long.valueOf(groupId), userDto.getId(), groupDto);
     }
 }

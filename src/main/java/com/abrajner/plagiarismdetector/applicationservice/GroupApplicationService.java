@@ -10,4 +10,6 @@ public interface GroupApplicationService {
     UserGroupDto validateAndSaveNewGroup(Long userId, GroupDto groupDto);
     
     List<UserGroupDto> getAllUsersGroups(Long userId);
+    
+    UserGroupDto updateGroupData(Long groupId, Long userId, GroupDto groupDto);
 }

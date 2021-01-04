@@ -41,4 +41,12 @@ public class GroupServiceImpl implements GroupService {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Group with this name already exists");
         }
     }
+    
+    @Override
+    public GroupEntity updateGroup(final Long groupId, final UserGroupDto userGroupDto) {
+        final GroupEntity groupEntityFromDatabase = this.groupRepository.getAllById(groupId);
+        groupEntityFromDatabase.setProgrammingLanguage(userGroupDto.getProgrammingLanguage());
+        groupEntityFromDatabase.setGroupName(userGroupDto.getGroupName());
+        return this.groupRepository.save(groupEntityFromDatabase);
+    }
 }

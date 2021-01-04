@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.abrajner.plagiarismdetector.applicationservice.GroupApplicationService;
 import com.abrajner.plagiarismdetector.core.user.GroupService;
+import com.abrajner.plagiarismdetector.dao.repository.GroupRepository;
 import com.abrajner.plagiarismdetector.gui.dto.GroupDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserGroupDto;
 import com.abrajner.plagiarismdetector.mapper.GroupMapper;
@@ -22,12 +23,16 @@ public class GroupApplicationServiceImpl implements GroupApplicationService {
     
     final GroupMapper groupMapper;
     
+    final GroupRepository groupRepository;
+    
     public GroupApplicationServiceImpl(final GroupService groupService,
                                        final GroupMapper groupMapper,
-                                       final GroupValidator groupValidator) {
+                                       final GroupValidator groupValidator,
+                                       final GroupRepository groupRepository) {
         this.groupService = groupService;
         this.validator = groupValidator;
         this.groupMapper = groupMapper;
+        this.groupRepository = groupRepository;
     }
     
     @Override
@@ -40,6 +45,12 @@ public class GroupApplicationServiceImpl implements GroupApplicationService {
     @Override
     public List<UserGroupDto> getAllUsersGroups(final Long userId) {
         return this.groupService.getAllUsersGroups(userId).stream().map(this.groupMapper::convertToDto).collect(Collectors.toList());
+    }
+    
+    @Override
+    public UserGroupDto updateGroupData(final Long groupId, final Long userId, final GroupDto groupDto) {
+        this.validator.validate(groupDto);
+        return this.groupMapper.convertToDto(this.groupService.updateGroup(groupId, this.creteNewUserGroup(userId, groupDto)));
     }
     
     private UserGroupDto creteNewUserGroup(final Long userId, final GroupDto groupDto){
