@@ -49,4 +49,9 @@ public class GroupServiceImpl implements GroupService {
         groupEntityFromDatabase.setGroupName(userGroupDto.getGroupName());
         return this.groupRepository.save(groupEntityFromDatabase);
     }
+    
+    @Override
+    public GroupEntity getGroupById(final Long groupId) {
+        return this.groupRepository.getAllById(groupId);
+    }
 }

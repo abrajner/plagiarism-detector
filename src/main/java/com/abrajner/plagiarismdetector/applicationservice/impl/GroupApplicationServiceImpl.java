@@ -53,6 +53,11 @@ public class GroupApplicationServiceImpl implements GroupApplicationService {
         return this.groupMapper.convertToDto(this.groupService.updateGroup(groupId, this.creteNewUserGroup(userId, groupDto)));
     }
     
+    @Override
+    public UserGroupDto getGroupById(final Long groupId) {
+        return this.groupMapper.convertToDto(this.groupService.getGroupById(groupId));
+    }
+    
     private UserGroupDto creteNewUserGroup(final Long userId, final GroupDto groupDto){
         final UserGroupDto userGroupDto = new UserGroupDto();
         userGroupDto.setGroupName(groupDto.getGroupName());

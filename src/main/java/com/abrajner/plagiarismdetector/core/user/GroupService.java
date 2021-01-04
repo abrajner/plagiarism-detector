@@ -3,7 +3,6 @@ package com.abrajner.plagiarismdetector.core.user;
 import java.util.List;
 
 import com.abrajner.plagiarismdetector.dao.entity.GroupEntity;
-import com.abrajner.plagiarismdetector.gui.dto.GroupDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserGroupDto;
 
 public interface GroupService {
@@ -15,4 +14,6 @@ public interface GroupService {
     void checkIfGroupAlreadyExistsForUser(Long userId, String groupName);
     
     GroupEntity updateGroup(final Long groupId, final UserGroupDto userGroupDto);
+    
+    GroupEntity getGroupById(final Long groupId);
 }

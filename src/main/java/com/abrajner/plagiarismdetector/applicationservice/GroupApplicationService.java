@@ -12,4 +12,6 @@ public interface GroupApplicationService {
     List<UserGroupDto> getAllUsersGroups(Long userId);
     
     UserGroupDto updateGroupData(Long groupId, Long userId, GroupDto groupDto);
+    
+    UserGroupDto getGroupById(Long groupId);
 }
