@@ -1,0 +1,100 @@
+package com.abrajner.plagiarismdetector.fileparser;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StreamTokenizer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class FileTokenizer {
+    
+    final List<Object> tokens = new ArrayList<>();
+    
+    private Reader fileReader;
+    
+    private StreamTokenizer streamTokenizer;
+    
+    private final int QUOTE_CHARACTER = '\'';
+    private final int DOUBLE_QUOTE_CHARACTER = '"';
+    
+    private int currentToken;
+    
+    public FileTokenizer(final File file, final ProgrammingLanguage programmingLanguage) {
+        try {
+            this.fileReader = new FileReader(file);
+            this.streamTokenizer = new StreamTokenizer(this.fileReader);
+            this.setCommentChar(programmingLanguage);
+            this.streamTokenizer.quoteChar('"');
+            this.currentToken = this.streamTokenizer.nextToken();
+        }catch (final IOException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public String convertTokenListToStringWithGivenDelimiter(final List<Object> listOfTokens,
+                                                             final String delimiter){
+        final StringBuilder parsedTokens = new StringBuilder();
+        listOfTokens.forEach(token -> parsedTokens.append(token.toString()).append(delimiter));
+        return parsedTokens.toString();
+    }
+    
+    public List<Object> tokenize() throws IOException {
+        while (this.currentToken != StreamTokenizer.TT_EOF) {
+            this.executeWhenUnderscoreToken();
+            this.executeStandardTokenBehaviour();
+            this.currentToken = this.streamTokenizer.nextToken();
+        }
+        this.fileReader.close();
+        return Collections.unmodifiableList(this.tokens);
+    }
+    
+    private void executeStandardTokenBehaviour(){
+        if (this.streamTokenizer.ttype == StreamTokenizer.TT_NUMBER) {
+            this.tokens.add(this.streamTokenizer.nval);
+        } else if (this.streamTokenizer.ttype == StreamTokenizer.TT_WORD
+                || this.streamTokenizer.ttype == this.QUOTE_CHARACTER
+                || this.streamTokenizer.ttype == this.DOUBLE_QUOTE_CHARACTER) {
+            this.tokens.add(this.streamTokenizer.sval);
+        }
+        else {
+            this.tokens.add((char) this.currentToken);
+        }
+    }
+    
+    private void executeWhenUnderscoreToken() throws IOException {
+        if(this.streamTokenizer.ttype == '_'){
+            this.currentToken = this.streamTokenizer.nextToken();
+            final StringBuilder tokenName = new StringBuilder();
+            if(!this.tokens.isEmpty()) {
+                final Object previousToken = this.tokens.get(this.tokens.size() - 1);
+                if (previousToken instanceof String) {
+                    this.tokens.remove(this.tokens.size() - 1);
+                    tokenName.append(previousToken);
+                }
+            }
+            tokenName.append("_");
+            if(this.streamTokenizer.sval != null) {
+                tokenName.append(this.streamTokenizer.sval);
+                this.currentToken = this.streamTokenizer.nextToken();
+            }
+            this.tokens.add(tokenName.toString());
+        }
+    }
+    
+    private void setCommentChar(final ProgrammingLanguage programmingLanguage){
+        if(programmingLanguage == ProgrammingLanguage.PYTHON
+                || programmingLanguage == ProgrammingLanguage.PHP) {
+            this.streamTokenizer.commentChar('#');
+        }
+        if(programmingLanguage == ProgrammingLanguage.C
+                || programmingLanguage == ProgrammingLanguage.CPP
+                || programmingLanguage == ProgrammingLanguage.JAVA
+                || programmingLanguage == ProgrammingLanguage.CSHARP
+                || programmingLanguage == ProgrammingLanguage.JAVASCRIPT){
+            this.streamTokenizer.slashSlashComments(true);
+        }
+    }
+}
