@@ -13,6 +13,8 @@ public class FileTokenizer {
     
     final List<Object> tokens = new ArrayList<>();
     
+    private final List<String> allIds = new ArrayList<>();
+    
     private Reader fileReader;
     
     private StreamTokenizer streamTokenizer;
@@ -27,6 +29,7 @@ public class FileTokenizer {
             this.fileReader = new FileReader(file);
             this.streamTokenizer = new StreamTokenizer(this.fileReader);
             this.setCommentChar(programmingLanguage);
+            this.streamTokenizer.eolIsSignificant(true);
             this.streamTokenizer.quoteChar('"');
             this.currentToken = this.streamTokenizer.nextToken();
         }catch (final IOException e){
@@ -34,11 +37,8 @@ public class FileTokenizer {
         }
     }
     
-    public String convertTokenListToStringWithGivenDelimiter(final List<Object> listOfTokens,
-                                                             final String delimiter){
-        final StringBuilder parsedTokens = new StringBuilder();
-        listOfTokens.forEach(token -> parsedTokens.append(token.toString()).append(delimiter));
-        return parsedTokens.toString();
+    public List<String> getAllIds() {
+        return Collections.unmodifiableList(this.allIds);
     }
     
     public List<Object> tokenize() throws IOException {
@@ -52,12 +52,25 @@ public class FileTokenizer {
     }
     
     private void executeStandardTokenBehaviour(){
+        if(this.streamTokenizer.ttype == '='){
+            if(!this.tokens.isEmpty()){
+                Object previousToken = this.tokens.get(this.tokens.size() - 1);
+                if (previousToken instanceof String && !this.allIds.contains(previousToken))
+                this.allIds.add(this.tokens.get(this.tokens.size() - 1).toString());
+            }
+        }
         if (this.streamTokenizer.ttype == StreamTokenizer.TT_NUMBER) {
             this.tokens.add(this.streamTokenizer.nval);
-        } else if (this.streamTokenizer.ttype == StreamTokenizer.TT_WORD
-                || this.streamTokenizer.ttype == this.QUOTE_CHARACTER
-                || this.streamTokenizer.ttype == this.DOUBLE_QUOTE_CHARACTER) {
+        } else if (this.streamTokenizer.ttype == StreamTokenizer.TT_WORD) {
             this.tokens.add(this.streamTokenizer.sval);
+        } else if (this.streamTokenizer.ttype == this.QUOTE_CHARACTER){
+            this.tokens.add("'");
+            this.tokens.add(this.streamTokenizer.sval);
+            this.tokens.add("'");
+        } else if (this.streamTokenizer.ttype == this.DOUBLE_QUOTE_CHARACTER){
+            this.tokens.add("\"");
+            this.tokens.add(this.streamTokenizer.sval);
+            this.tokens.add("\"");
         }
         else {
             this.tokens.add((char) this.currentToken);
