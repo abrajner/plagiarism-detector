@@ -1,13 +1,14 @@
 package com.abrajner.plagiarismdetector.fileparser;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class FileTokenizer {
     
@@ -24,9 +25,9 @@ public class FileTokenizer {
     
     private int currentToken;
     
-    public FileTokenizer(final File file, final ProgrammingLanguage programmingLanguage) {
+    public FileTokenizer(final MultipartFile file, final ProgrammingLanguage programmingLanguage) {
         try {
-            this.fileReader = new FileReader(file);
+            this.fileReader = new InputStreamReader(file.getInputStream());
             this.streamTokenizer = new StreamTokenizer(this.fileReader);
             this.setCommentChar(programmingLanguage);
             this.streamTokenizer.eolIsSignificant(true);
@@ -37,17 +38,23 @@ public class FileTokenizer {
         }
     }
     
-    public List<String> getAllIds() {
+    public List<Object> getAllIds() {
         return Collections.unmodifiableList(this.allIds);
     }
     
-    public List<Object> tokenize() throws IOException {
+    public List<Object> tokenize() {
         while (this.currentToken != StreamTokenizer.TT_EOF) {
-            this.executeWhenUnderscoreToken();
-            this.executeStandardTokenBehaviour();
-            this.currentToken = this.streamTokenizer.nextToken();
+            try {
+                this.executeWhenUnderscoreToken();
+                this.executeStandardTokenBehaviour();
+                this.currentToken = this.streamTokenizer.nextToken();
+                this.fileReader.close();
+                return Collections.unmodifiableList(this.tokens);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        this.fileReader.close();
         return Collections.unmodifiableList(this.tokens);
     }
     

@@ -1,9 +1,12 @@
 package com.abrajner.plagiarismdetector.applicationservice.impl;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.abrajner.plagiarismdetector.applicationservice.FileInGroupManagementApplicationService;
 import com.abrajner.plagiarismdetector.core.user.FileManagementService;
@@ -18,6 +21,8 @@ public class FileInGroupManagementApplicationServiceImpl implements FileInGroupM
     
     final FileMapper fileMapper;
     
+    Logger LOGGER = Logger.getLogger(this.getClass().getName());
+    
     public FileInGroupManagementApplicationServiceImpl(final FileManagementService fileManagementService,
                                                        final FileMapper fileMapper) {
         this.fileManagementService = fileManagementService;
@@ -31,7 +36,8 @@ public class FileInGroupManagementApplicationServiceImpl implements FileInGroupM
                 .collect(Collectors.toList());
     }
     
-    public FileReducedDto validateAndSaveNewFile(final Long groupId, final InputFileDto fileDto){
-        return this.fileMapper.convertToReducedDto(this.fileManagementService.saveNewFile(groupId, fileDto));
+    public FileReducedDto validateAndSaveNewFile(final Long groupId, final Long userId, final InputFileDto fileDto, final MultipartFile multipartFile){
+         LOGGER.info(String.valueOf(multipartFile.isEmpty()));
+         return this.fileMapper.convertToReducedDto(this.fileManagementService.saveNewFile(groupId, userId, fileDto, multipartFile));
     }
 }

@@ -26,7 +26,10 @@ public class ReportEntity {
     private Boolean isPlagiarism;
     
     @Column(name = Defaults.ReportEntityColumns.SIMILARITY_PERCENTAGE)
-    private Integer codeSimilarityPercentage;
+    private double codeSimilarityPercentage;
+    
+    @Column(name = Defaults.ReportEntityColumns.SIMILARITY_PERCENTAGE_WITH_SUBSTITUTION)
+    private double codeSimilarityPercentageWithSubstitution;
     
     public ReportEntity(){
     }
@@ -35,6 +38,7 @@ public class ReportEntity {
         this.setId(builder.id);
         this.setCodeSimilarityPercentage(builder.codeSimilarityPercentage);
         this.setPlagiarism(builder.isPlagiarism);
+        this.setCodeSimilarityPercentageWithSubstitution(builder.codeSimilarityPercentageWithSubstitution);
     }
     
     public void setId(final Long userId) {
@@ -53,20 +57,29 @@ public class ReportEntity {
         this.isPlagiarism = plagiarism;
     }
     
-    public Integer getCodeSimilarityPercentage() {
+    public double getCodeSimilarityPercentage() {
         return this.codeSimilarityPercentage;
     }
     
-    public void setCodeSimilarityPercentage(final Integer codeSimilarityPercentage) {
+    public double getCodeSimilarityPercentageWithSubstitution() {
+        return this.codeSimilarityPercentageWithSubstitution;
+    }
+    
+    public void setCodeSimilarityPercentageWithSubstitution(final double codeSimilarityPercentageWithSubstitution) {
+        this.codeSimilarityPercentageWithSubstitution = codeSimilarityPercentageWithSubstitution;
+    }
+    
+    public void setCodeSimilarityPercentage(final double codeSimilarityPercentage) {
         this.codeSimilarityPercentage = codeSimilarityPercentage;
     }
     
     @Override
     public String toString() {
         return "ReportEntity{" +
-                "id=" + this.id +
-                ", isPlagiarism=" + this.isPlagiarism +
-                ", codeSimilarityPercentage=" + this.codeSimilarityPercentage +
+                "id=" + id +
+                ", isPlagiarism=" + isPlagiarism +
+                ", codeSimilarityPercentage=" + codeSimilarityPercentage +
+                ", codeSimilarityPercentageWithSubstitution=" + codeSimilarityPercentageWithSubstitution +
                 '}';
     }
     
@@ -79,18 +92,20 @@ public class ReportEntity {
         final ReportEntity that = (ReportEntity) o;
         return Objects.equals(this.id, that.id) &&
                 Objects.equals(this.isPlagiarism, that.isPlagiarism) &&
-                Objects.equals(this.codeSimilarityPercentage, that.codeSimilarityPercentage);
+                Objects.equals(this.codeSimilarityPercentage, that.codeSimilarityPercentage) &&
+                Objects.equals(this.codeSimilarityPercentageWithSubstitution, that.codeSimilarityPercentageWithSubstitution);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.isPlagiarism, this.codeSimilarityPercentage);
+        return Objects.hash(this.id, this.isPlagiarism, this.codeSimilarityPercentage, this.codeSimilarityPercentageWithSubstitution);
     }
     
     public static final class Builder{
         private Long id;
         private boolean isPlagiarism;
-        private Integer codeSimilarityPercentage;
+        private double codeSimilarityPercentage;
+        private double codeSimilarityPercentageWithSubstitution;
     
         public Builder id(final Long id){
             this.id = id;
@@ -102,8 +117,13 @@ public class ReportEntity {
             return this;
         }
     
-        public Builder codeSimilarityPercentage(final Integer codeSimilarityPercentage){
+        public Builder codeSimilarityPercentage(final double codeSimilarityPercentage){
             this.codeSimilarityPercentage = codeSimilarityPercentage;
+            return this;
+        }
+    
+        public Builder codeSimilarityPercentageWithSubstitution(final double codeSimilarityPercentageWithSubstitution){
+            this.codeSimilarityPercentageWithSubstitution = codeSimilarityPercentageWithSubstitution;
             return this;
         }
         

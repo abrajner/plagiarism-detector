@@ -31,8 +31,8 @@ public class FileEntity {
     @Column(name = Defaults.FileEntityColumns.FILE_AUTHOR)
     private String fileAuthor;
     
-    @Column(name = Defaults.FileEntityColumns.FILE_CONTENT, nullable = false)
-    private String fileContent;
+    @Column(name = Defaults.FileEntityColumns.IDENTIFIERS)
+    private String identifiers;
     
     @Column(name = Defaults.FileEntityColumns.PARSED_FILE_CONTENT, nullable = false)
     private String parsedFileContent;
@@ -47,7 +47,7 @@ public class FileEntity {
         this.setId(builder.id);
         this.setUserId(builder.userId);
         this.setFileName(builder.fileName);
-        this.setFileContent(builder.fileContent);
+        this.setIdentifiers(builder.identifiers);
         this.setParsedFileContent(builder.parsedFileContent);
         this.setFileAuthor(builder.fileAuthor);
         this.setActive(builder.isActive);
@@ -85,12 +85,12 @@ public class FileEntity {
         this.fileAuthor = fileAuthor;
     }
     
-    public String getFileContent() {
-        return this.fileContent;
+    public String getIdentifiers() {
+        return this.identifiers;
     }
     
-    public void setFileContent(final String fileContent) {
-        this.fileContent = fileContent;
+    public void setIdentifiers(final String fileContent) {
+        this.identifiers = fileContent;
     }
     
     public String getParsedFileContent() {
@@ -116,7 +116,7 @@ public class FileEntity {
                 ", userId=" + this.userId +
                 ", fileName='" + this.fileName +
                 ", fileAuthor='" + this.fileAuthor +
-                ", fileContent='" + this.fileContent +
+                ", identifiers='" + this.identifiers +
                 ", parsedFileContent='" + this.parsedFileContent +
                 ", isActive=" + this.isActive +
                 '}';
@@ -134,13 +134,13 @@ public class FileEntity {
                 Objects.equals(this.userId, that.userId) &&
                 Objects.equals(this.fileName, that.fileName) &&
                 Objects.equals(this.fileAuthor, that.fileAuthor) &&
-                Objects.equals(this.fileContent, that.fileContent) &&
+                Objects.equals(this.identifiers, that.identifiers) &&
                 Objects.equals(this.parsedFileContent, that.parsedFileContent);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.userId, this.fileName, this.fileAuthor, this.fileContent, this.parsedFileContent, this.isActive);
+        return Objects.hash(this.id, this.userId, this.fileName, this.fileAuthor, this.identifiers, this.parsedFileContent, this.isActive);
     }
     
     public static final class Builder{
@@ -148,7 +148,7 @@ public class FileEntity {
         private Long userId;
         private String fileName;
         private String fileAuthor;
-        private String fileContent;
+        private String identifiers;
         private String parsedFileContent;
         private boolean isActive;
         
@@ -172,8 +172,8 @@ public class FileEntity {
             return this;
         }
     
-        public Builder fileContent(final String fileContent){
-            this.fileContent = fileContent;
+        public Builder identifiers(final String identifiers){
+            this.identifiers = identifiers;
             return this;
         }
     

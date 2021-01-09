@@ -22,6 +22,7 @@ public final class Defaults {
     public static final class ReportEntityColumns{
         public static final String IS_PLAGIARISM = "is_plagiarism";
         public static final String SIMILARITY_PERCENTAGE = "similarity_percentage";
+        public static final String SIMILARITY_PERCENTAGE_WITH_SUBSTITUTION = "similarity_percentage_with_substitution";
     }
     
     public static final class FileReportEntityColumns{
@@ -31,7 +32,7 @@ public final class Defaults {
     public static final class FileEntityColumns{
         public static final String FILE_NAME = "file_name";
         public static final String IS_ACTIVE = "is_active";
-        public static final String FILE_CONTENT = "file_content";
+        public static final String IDENTIFIERS = "identifiers";
         public static final String PARSED_FILE_CONTENT = "parsed_file_content";
         public static final String FILE_AUTHOR = "file_author";
     }

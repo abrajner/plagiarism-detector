@@ -1,4 +1,4 @@
-package com.abrajner.plagiarismdetector.webapp.controller.gui;
+package com.abrajner.plagiarismdetector.restapi.controller.gui;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +17,7 @@ import com.abrajner.plagiarismdetector.applicationservice.UserAuthenticationAppl
 import com.abrajner.plagiarismdetector.gui.dto.GroupDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserDto;
 import com.abrajner.plagiarismdetector.gui.dto.UserGroupDto;
-import com.abrajner.plagiarismdetector.webapp.controller.AbstractGuiController;
+import com.abrajner.plagiarismdetector.restapi.controller.AbstractGuiController;
 
 @RestController
 public class GroupController extends AbstractGuiController {

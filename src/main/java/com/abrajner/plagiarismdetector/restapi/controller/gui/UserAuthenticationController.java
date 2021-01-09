@@ -1,4 +1,4 @@
-package com.abrajner.plagiarismdetector.webapp.controller.gui;
+package com.abrajner.plagiarismdetector.restapi.controller.gui;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ public class UserAuthenticationController {
         this.userAuthenticationApplicationService = userAuthenticationApplicationService;
     }
     
-    @PostMapping(path = "authentication-token", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(path = "/authentication-token", consumes = {MediaType.APPLICATION_JSON_VALUE})
     public AuthenticationTokenDto getAuthenticationToken(@RequestBody final UserLoginDto userLoginDto){
         return this.userAuthenticationApplicationService.generateUserAuthenticationToken(userLoginDto);
     }

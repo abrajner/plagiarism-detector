@@ -1,4 +1,4 @@
-package com.abrajner.plagiarismdetector.webapp.controller;
+package com.abrajner.plagiarismdetector.restapi.controller;
 
 import com.abrajner.plagiarismdetector.applicationservice.UserAuthenticationApplicationService;
 import com.abrajner.plagiarismdetector.gui.dto.UserDto;

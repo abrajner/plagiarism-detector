@@ -5,9 +5,12 @@ import java.util.Objects;
 
 public class FileReportId implements Serializable {
     
-    private final Long reportId;
+    private Long reportId;
     
-    private final Long fileId;
+    private Long fileId;
+    
+    public FileReportId(){
+    }
     
     public FileReportId(final Long reportId, final Long fileId) {
         this.reportId = reportId;

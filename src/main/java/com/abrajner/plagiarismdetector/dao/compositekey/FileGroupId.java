@@ -5,9 +5,12 @@ import java.util.Objects;
 
 public class FileGroupId implements Serializable {
    
-    private final Long fileId;
+    private Long fileId;
  
-    private final Long groupId;
+    private Long groupId;
+    
+    public FileGroupId(){
+    }
     
     public FileGroupId(final Long fileId, final Long groupId) {
         this.fileId = fileId;
