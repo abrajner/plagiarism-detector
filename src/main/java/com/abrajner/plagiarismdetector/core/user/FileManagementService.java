@@ -2,6 +2,7 @@ package com.abrajner.plagiarismdetector.core.user;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.abrajner.plagiarismdetector.dao.entity.FileEntity;
@@ -12,4 +13,6 @@ public interface FileManagementService {
     List<FileEntity> getAllActiveFilesInGroup(Long groupId);
     
     FileEntity saveNewFile(Long groupId, Long userId, InputFileDto inputFileDto, MultipartFile file);
+    
+    Resource loadFileAsResource(Long fileId);
 }

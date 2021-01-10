@@ -2,6 +2,7 @@ package com.abrajner.plagiarismdetector.core.user.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -15,6 +16,8 @@ import javax.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +33,7 @@ import com.abrajner.plagiarismdetector.fileparser.ProgrammingLanguage;
 import com.abrajner.plagiarismdetector.fileparser.TokenizedStringSerializer;
 import com.abrajner.plagiarismdetector.gui.dto.InputFileDto;
 import com.abrajner.plagiarismdetector.mapper.FileMapper;
+import com.abrajner.plagiarismdetector.restapi.controller.error.FileNotFoundException;
 import com.abrajner.plagiarismdetector.restapi.controller.error.FileStorageException;
 
 @Service
@@ -94,7 +98,6 @@ public class FileManagementServiceImpl implements FileManagementService {
     
     private void storeFile(final MultipartFile file, final Long fileId){
         final String fileName = fileId.toString();
-        final String relativeWebPath = "/plagiarismdetector/uploadedfiles";
         final String absoluteFilePath = this.context.getRealPath("/");
         try {
             final Path uploadedFile = Paths.get(absoluteFilePath + "/" + fileName);
@@ -102,6 +105,22 @@ public class FileManagementServiceImpl implements FileManagementService {
             Files.copy(file.getInputStream(), uploadedFile, StandardCopyOption.REPLACE_EXISTING);
         } catch (final IOException ex) {
             throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
+        }
+    }
+    
+    @Override
+    public Resource loadFileAsResource(final Long fileId) {
+        try {
+            final String absoluteFilePath = this.context.getRealPath("/");
+            final Path uploadedFile = Paths.get(absoluteFilePath + "/" + fileId.toString());
+            final Resource resource = new UrlResource(uploadedFile.toUri());
+            if(resource.exists()) {
+                return resource;
+            } else {
+                throw new FileNotFoundException("File not found " + fileId.toString());
+            }
+        } catch (MalformedURLException ex) {
+            throw new FileNotFoundException("File not found " + fileId.toString(), ex);
         }
     }
 }

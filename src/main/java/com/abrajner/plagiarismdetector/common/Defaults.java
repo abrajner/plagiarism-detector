@@ -23,6 +23,9 @@ public final class Defaults {
         public static final String IS_PLAGIARISM = "is_plagiarism";
         public static final String SIMILARITY_PERCENTAGE = "similarity_percentage";
         public static final String SIMILARITY_PERCENTAGE_WITH_SUBSTITUTION = "similarity_percentage_with_substitution";
+        public static final String IS_FINISHED = "is_finished";
+        public static final String REPORT_NAME = "report_name";
+        public static final String IS_SUBSTITUTION_INCLUDED = "is_substitution_included";
     }
     
     public static final class FileReportEntityColumns{

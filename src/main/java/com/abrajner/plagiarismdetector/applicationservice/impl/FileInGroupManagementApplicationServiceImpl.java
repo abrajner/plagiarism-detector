@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,4 +41,11 @@ public class FileInGroupManagementApplicationServiceImpl implements FileInGroupM
          LOGGER.info(String.valueOf(multipartFile.isEmpty()));
          return this.fileMapper.convertToReducedDto(this.fileManagementService.saveNewFile(groupId, userId, fileDto, multipartFile));
     }
+    
+    @Override
+    public Resource downloadFileContent(final Long fileId) {
+        return this.fileManagementService.loadFileAsResource(fileId);
+    }
+    
+    
 }

@@ -3,6 +3,7 @@ package com.abrajner.plagiarismdetector.plagiarismanalysis;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
@@ -14,18 +15,19 @@ public class FileAnalysis {
     public double analyze(final List<List<String>> fileA,
                           final List<String> fileAIds,
                           final List<List<String>> fileB,
-                          final List<String> fileBIds) {
+                          final List<String> fileBIds,
+                          final boolean withSubstitution) {
         if(fileA.size() >= fileB.size()){
             this.tokenAnalysis = new TokenAnalysis(fileAIds);
-            return this.analyzeFiles(fileA, fileB);
+            return this.analyzeFiles(fileA, fileB, withSubstitution);
         }
         else {
             this.tokenAnalysis = new TokenAnalysis(fileBIds);
-            return this.analyzeFiles(fileB, fileA);
+            return this.analyzeFiles(fileB, fileA, withSubstitution);
         }
     }
     
-    private double analyzeFiles(final List<List<String>> firstFile, final List<List<String>> secondFile){
+    private double analyzeFiles(final List<List<String>> firstFile, final List<List<String>> secondFile, final boolean withSubstitution){
         final List<Double> longestCommonSubsequenceForChars = new ArrayList<>();
         final List<Double> longestCommonSubsequenceForTokens = new ArrayList<>();
         
@@ -55,7 +57,7 @@ public class FileAnalysis {
             longestCommonSubsequenceForTokens.clear();
             for (final List<String> lineFromSecondFile : secondFile) {
                 longestCommonSubsequenceForTokens.add(this.tokenAnalysis.analyze(
-                        lineFromFirstFile, lineFromSecondFile, false));
+                        lineFromFirstFile, lineFromSecondFile, withSubstitution));
                 longestCommonSubsequenceForChars.add(this.characterAnalysis.analyze(
                         this.prepareDataForCharacterAnalysis(lineFromFirstFile),
                         this.prepareDataForCharacterAnalysis(lineFromSecondFile)));
@@ -72,6 +74,10 @@ public class FileAnalysis {
                 + this.calculateResultForFile(sumOfLongestCommonSubsequenceForChars,
                 firstFileCharsCapacity.get(),
                 secondFileCharsCapacity.get()))/(double) 2;
+    }
+    
+    public Map<String, String> getTokensForSubstitution(){
+        return this.tokenAnalysis.getSubstitutedIds();
     }
     
     private double calculateResultForFile(final Double longestCommonSubsequence,

@@ -38,6 +38,10 @@ public class TokenizedStringSerializer {
                 .collect(Collectors.toList());
     }
     
+    public static List<String> deserializeIdentifiers(final String serializedData){
+        return Arrays.asList(serializedData.split(Defaults.TOKENS_DELIMITER));
+    }
+    
     public static List<String> deserializeLines(final String serializedData){
         final List<String> list = Arrays.asList(serializedData.split(Defaults.TOKENS_DELIMITER));
         final StringBuilder tokensLine = new StringBuilder();
