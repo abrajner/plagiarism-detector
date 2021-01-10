@@ -34,7 +34,7 @@ public class FileEntity {
     @Column(name = Defaults.FileEntityColumns.IDENTIFIERS)
     private String identifiers;
     
-    @Column(name = Defaults.FileEntityColumns.PARSED_FILE_CONTENT, nullable = false)
+    @Column(name = Defaults.FileEntityColumns.PARSED_FILE_CONTENT, nullable = false, length = 2048)
     private String parsedFileContent;
     
     @Column(name = Defaults.FileEntityColumns.IS_ACTIVE)

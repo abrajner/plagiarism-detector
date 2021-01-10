@@ -25,7 +25,14 @@ public class FileTokenizer {
     
     private int currentToken;
     
-    public FileTokenizer(final MultipartFile file, final ProgrammingLanguage programmingLanguage) {
+    public FileTokenizer() {
+    }
+    
+    public List<Object> getAllIds() {
+        return Collections.unmodifiableList(this.allIds);
+    }
+    
+    public List<Object> tokenize(final MultipartFile file, final ProgrammingLanguage programmingLanguage) {
         try {
             this.fileReader = new InputStreamReader(file.getInputStream());
             this.streamTokenizer = new StreamTokenizer(this.fileReader);
@@ -33,27 +40,14 @@ public class FileTokenizer {
             this.streamTokenizer.eolIsSignificant(true);
             this.streamTokenizer.quoteChar('"');
             this.currentToken = this.streamTokenizer.nextToken();
-        }catch (final IOException e){
-            e.printStackTrace();
-        }
-    }
-    
-    public List<Object> getAllIds() {
-        return Collections.unmodifiableList(this.allIds);
-    }
-    
-    public List<Object> tokenize() {
-        while (this.currentToken != StreamTokenizer.TT_EOF) {
-            try {
+            while (this.currentToken != StreamTokenizer.TT_EOF) {
                 this.executeWhenUnderscoreToken();
                 this.executeStandardTokenBehaviour();
                 this.currentToken = this.streamTokenizer.nextToken();
-                this.fileReader.close();
-                return Collections.unmodifiableList(this.tokens);
             }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            this.fileReader.close();
+        }            catch (IOException e) {
+            e.printStackTrace();
         }
         return Collections.unmodifiableList(this.tokens);
     }

@@ -75,10 +75,11 @@ public class FileManagementServiceImpl implements FileManagementService {
                                   final Long userId,
                                   final InputFileDto inputFileDto,
                                   final MultipartFile file) {
-        final FileTokenizer fileTokenizer = new FileTokenizer(file, ProgrammingLanguage.valueOf(this.groupRepository.getAllById(groupId).getProgrammingLanguage()));
+        final FileTokenizer fileTokenizer = new FileTokenizer();
         final FileEntity fileEntity = new FileEntity.Builder()
                 .fileName(inputFileDto.getFileName())
-                .parsedFileContent(TokenizedStringSerializer.serialize(fileTokenizer.tokenize()))
+                .parsedFileContent(TokenizedStringSerializer.serialize(fileTokenizer.tokenize(file,
+                        ProgrammingLanguage.valueOf(this.groupRepository.getAllById(groupId).getProgrammingLanguage()))))
                 .identifiers(TokenizedStringSerializer.serialize(fileTokenizer.getAllIds()))
                 .isActive(true)
                 .userId(userId)

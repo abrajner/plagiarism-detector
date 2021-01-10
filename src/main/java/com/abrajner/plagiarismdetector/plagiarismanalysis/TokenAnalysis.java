@@ -59,16 +59,19 @@ public class TokenAnalysis{
         final Optional<String> identifierInLine = this.findIdentifierInLine(this.idsInFirstFile, firstFile);
         
         identifierInLine.ifPresent(value -> {
-            if("=".equals(firstFile.get(firstFile.indexOf(value) + 1))){
+            if(firstFile.indexOf(value) != (firstFile.size() -1)) {
+                if ("=".equals(firstFile.get(firstFile.indexOf(value) + 1))) {
+        
+                    if (!this.substitutedIds.containsKey(value)
+                            && (firstFile.size() - firstFile.indexOf(value)) <= longestCommonSubsequence
+                            && secondFile.contains("=")) {
+            
+                        final String idFromSecondFile = secondFile.get(secondFile.indexOf("=") - 1);
+                        if (!value.equals(idFromSecondFile)
+                                && !this.substitutedIds.containsValue(idFromSecondFile)) {
                 
-                if(!this.substitutedIds.containsKey(value)
-                        && (firstFile.size() - firstFile.indexOf(value)) <= longestCommonSubsequence){
-                    
-                    final String idFromSecondFile = secondFile.get(secondFile.indexOf("=") - 1);
-                    if(!value.equals(idFromSecondFile)
-                            && !this.substitutedIds.containsValue(idFromSecondFile)) {
-                        
-                        this.substitutedIds.put(value, secondFile.get(secondFile.indexOf("=") - 1));
+                            this.substitutedIds.put(value, secondFile.get(secondFile.indexOf("=") - 1));
+                        }
                     }
                 }
             }
