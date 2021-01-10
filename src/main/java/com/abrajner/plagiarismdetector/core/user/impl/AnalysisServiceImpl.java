@@ -109,7 +109,10 @@ public class AnalysisServiceImpl implements AnalysisService {
             fileIds.forEach(secondFileId -> {
                 if(!file.equals(secondFileId) && (filesCombination.isEmpty()
                         || filesCombination.stream().noneMatch(combination -> combination.contains(file) && combination.contains(secondFileId)))){
-                    filesCombination.add(List.of(file, secondFileId));
+                    List<Long> list = new ArrayList<>();
+                    list.add(file);
+                    list.add(secondFileId);
+                    filesCombination.add(list);
                 }
             });
         });
