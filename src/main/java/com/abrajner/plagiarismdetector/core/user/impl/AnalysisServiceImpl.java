@@ -3,6 +3,7 @@ package com.abrajner.plagiarismdetector.core.user.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -77,28 +78,28 @@ public class AnalysisServiceImpl implements AnalysisService {
                 isSubstitutionIncluded = true;
                 if(firstFileDeserialized.size() >= secondFileDeserialized.size()){
                     codeSimilarityPercentageWithSubstitution = fileAnalysis.analyze(
-                            this.replaceValues(fileAnalysis.getTokensForSubstitution(), firstFileDeserialized),
+                            this.replaceValues(fileAnalysis.getTokensForSubstitution(), filesToAnalyse.get(0).getParsedFileContent()),
                             this.deserializeIdentifiersFromDatabase(filesToAnalyse.get(0).getIdentifiers()),
                             secondFileDeserialized,
                             this.deserializeIdentifiersFromDatabase(filesToAnalyse.get(1).getIdentifiers()),
                             true);
                 }
                 else{
-                    if(firstFileDeserialized.size() >= secondFileDeserialized.size()){
-                        codeSimilarityPercentageWithSubstitution = fileAnalysis.analyze(
-                                firstFileDeserialized,
-                                this.deserializeIdentifiersFromDatabase(filesToAnalyse.get(0).getIdentifiers()),
-                                this.replaceValues(fileAnalysis.getTokensForSubstitution(), secondFileDeserialized),
-                                this.deserializeIdentifiersFromDatabase(filesToAnalyse.get(1).getIdentifiers()),
-                                true);
-                    }
+                    codeSimilarityPercentageWithSubstitution = fileAnalysis.analyze(
+                            firstFileDeserialized,
+                            this.deserializeIdentifiersFromDatabase(filesToAnalyse.get(0).getIdentifiers()),
+                            this.replaceValues(fileAnalysis.getTokensForSubstitution(), filesToAnalyse.get(1).getParsedFileContent()),
+                            this.deserializeIdentifiersFromDatabase(filesToAnalyse.get(1).getIdentifiers()),
+                            true);
                 }
+                reportEntity.setPlagiarism(codeSimilarityPercentageWithSubstitution >= 0.5);
+            }else {
+                reportEntity.setPlagiarism(codeSimilarityPercentage >= 0.5);
             }
             reportEntity.setSubstitutionIncluded(isSubstitutionIncluded);
             reportEntity.setFinished(true);
             reportEntity.setCodeSimilarityPercentageWithSubstitution(codeSimilarityPercentageWithSubstitution * 100);
             reportEntity.setCodeSimilarityPercentage(codeSimilarityPercentage * 100);
-            reportEntity.setPlagiarism(codeSimilarityPercentage >= 0.5);
             this.reportRepository.save(reportEntity);
         });
     }
@@ -127,10 +128,12 @@ public class AnalysisServiceImpl implements AnalysisService {
         return TokenizedStringSerializer.deserializeIdentifiers(serializedData);
     }
     
-    private List<List<String>> replaceValues(final Map<String, String> tokensForSubstitution, final List<List<String>> fileContent){
-        return fileContent.stream().peek(line ->
-                tokensForSubstitution.forEach((key, value) -> {
-                    line.replaceAll(x -> x.replace(key, value));
-                })).collect(Collectors.toList());
+    private List<List<String>> replaceValues(final Map<String, String> tokensForSubstitution, final String fileContent){
+        final AtomicReference<String> string = new AtomicReference<>();
+        string.getAndSet(fileContent);
+        tokensForSubstitution.forEach((key, value) -> {
+            string.updateAndGet(str -> str.replace(key, value));
+        });
+        return this.deserializeFileContentFromDatabase(string.get());
     }
 }

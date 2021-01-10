@@ -63,8 +63,7 @@ public class TokenAnalysis{
                 if ("=".equals(firstFile.get(firstFile.indexOf(value) + 1))) {
         
                     if (!this.substitutedIds.containsKey(value)
-                            && (firstFile.size() - firstFile.indexOf(value)) <= longestCommonSubsequence
-                            && secondFile.contains("=")) {
+                            && (firstFile.size() - firstFile.indexOf(value) - 1) <= longestCommonSubsequence) {
             
                         final String idFromSecondFile = secondFile.get(secondFile.indexOf("=") - 1);
                         if (!value.equals(idFromSecondFile)
