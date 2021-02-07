@@ -31,10 +31,7 @@ public class FileEntity {
     @Column(name = Defaults.FileEntityColumns.FILE_AUTHOR)
     private String fileAuthor;
     
-    @Column(name = Defaults.FileEntityColumns.IDENTIFIERS)
-    private String identifiers;
-    
-    @Column(name = Defaults.FileEntityColumns.PARSED_FILE_CONTENT, nullable = false, length = 2048)
+    @Column(name = Defaults.FileEntityColumns.PARSED_FILE_CONTENT, columnDefinition="TEXT")
     private String parsedFileContent;
     
     @Column(name = Defaults.FileEntityColumns.IS_ACTIVE)
@@ -47,7 +44,6 @@ public class FileEntity {
         this.setId(builder.id);
         this.setUserId(builder.userId);
         this.setFileName(builder.fileName);
-        this.setIdentifiers(builder.identifiers);
         this.setParsedFileContent(builder.parsedFileContent);
         this.setFileAuthor(builder.fileAuthor);
         this.setActive(builder.isActive);
@@ -85,14 +81,6 @@ public class FileEntity {
         this.fileAuthor = fileAuthor;
     }
     
-    public String getIdentifiers() {
-        return this.identifiers;
-    }
-    
-    public void setIdentifiers(final String fileContent) {
-        this.identifiers = fileContent;
-    }
-    
     public String getParsedFileContent() {
         return this.parsedFileContent;
     }
@@ -116,7 +104,6 @@ public class FileEntity {
                 ", userId=" + this.userId +
                 ", fileName='" + this.fileName +
                 ", fileAuthor='" + this.fileAuthor +
-                ", identifiers='" + this.identifiers +
                 ", parsedFileContent='" + this.parsedFileContent +
                 ", isActive=" + this.isActive +
                 '}';
@@ -134,13 +121,12 @@ public class FileEntity {
                 Objects.equals(this.userId, that.userId) &&
                 Objects.equals(this.fileName, that.fileName) &&
                 Objects.equals(this.fileAuthor, that.fileAuthor) &&
-                Objects.equals(this.identifiers, that.identifiers) &&
                 Objects.equals(this.parsedFileContent, that.parsedFileContent);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.userId, this.fileName, this.fileAuthor, this.identifiers, this.parsedFileContent, this.isActive);
+        return Objects.hash(this.id, this.userId, this.fileName, this.fileAuthor, this.parsedFileContent, this.isActive);
     }
     
     public static final class Builder{
@@ -148,7 +134,6 @@ public class FileEntity {
         private Long userId;
         private String fileName;
         private String fileAuthor;
-        private String identifiers;
         private String parsedFileContent;
         private boolean isActive;
         
@@ -171,12 +156,7 @@ public class FileEntity {
             this.fileAuthor = fileAuthor;
             return this;
         }
-    
-        public Builder identifiers(final String identifiers){
-            this.identifiers = identifiers;
-            return this;
-        }
-    
+        
         public Builder parsedFileContent(final String parsedFileContent){
             this.parsedFileContent = parsedFileContent;
             return this;

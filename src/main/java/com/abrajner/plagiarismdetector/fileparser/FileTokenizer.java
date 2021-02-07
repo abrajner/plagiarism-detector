@@ -39,8 +39,10 @@ public class FileTokenizer {
             this.fileReader = new InputStreamReader(file.getInputStream());
             this.streamTokenizer = new StreamTokenizer(this.fileReader);
             this.setCommentChar(programmingLanguage);
+            this.streamTokenizer.ordinaryChar('/');
+            this.streamTokenizer.ordinaryChar(' ');
+            this.streamTokenizer.ordinaryChar('\t');
             this.streamTokenizer.eolIsSignificant(true);
-            this.streamTokenizer.quoteChar('"');
             this.currentToken = this.streamTokenizer.nextToken();
             while (this.currentToken != StreamTokenizer.TT_EOF) {
                 this.executeWhenUnderscoreToken();
@@ -57,9 +59,20 @@ public class FileTokenizer {
     private void executeStandardTokenBehaviour(){
         if(this.streamTokenizer.ttype == '='){
             if(!this.tokens.isEmpty()){
-                Object previousToken = this.tokens.get(this.tokens.size() - 1);
-                if (previousToken instanceof String && !this.allIds.contains(previousToken))
-                this.allIds.add(this.tokens.get(this.tokens.size() - 1).toString());
+                final Object previousToken = this.tokens.get(this.tokens.size() - 1);
+                if(previousToken.equals(' ')){
+                     int i = this.tokens.size() - 2;
+                     while(i>=0){
+                         if(!this.tokens.get(i).equals(' ') && this.tokens.get(i) instanceof String && !this.allIds.contains(this.tokens.get(i))){
+                             this.allIds.add(this.tokens.get(i).toString());
+                             break;
+                         }
+                         i--;
+                     }
+                }
+                if ((previousToken.equals(' ') || previousToken instanceof String) && !this.allIds.contains(previousToken)) {
+                    this.allIds.add(previousToken.toString());
+                }
             }
         }
         if (this.streamTokenizer.ttype == StreamTokenizer.TT_NUMBER) {
@@ -101,14 +114,13 @@ public class FileTokenizer {
     }
     
     private void setCommentChar(final ProgrammingLanguage programmingLanguage){
-        if(programmingLanguage == ProgrammingLanguage.PYTHON
-                || programmingLanguage == ProgrammingLanguage.PHP) {
+        if(programmingLanguage == ProgrammingLanguage.PYTHON) {
             this.streamTokenizer.commentChar('#');
+            this.streamTokenizer.slashSlashComments(false);
         }
         if(programmingLanguage == ProgrammingLanguage.C
                 || programmingLanguage == ProgrammingLanguage.CPP
                 || programmingLanguage == ProgrammingLanguage.JAVA
-                || programmingLanguage == ProgrammingLanguage.CSHARP
                 || programmingLanguage == ProgrammingLanguage.JAVASCRIPT){
             this.streamTokenizer.slashSlashComments(true);
         }

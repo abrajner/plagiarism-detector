@@ -1,6 +1,5 @@
 package com.abrajner.plagiarismdetector.core.user.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -8,13 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -75,12 +72,10 @@ public class FileManagementServiceImpl implements FileManagementService {
                                   final Long userId,
                                   final InputFileDto inputFileDto,
                                   final MultipartFile file) {
-        final FileTokenizer fileTokenizer = new FileTokenizer();
         final FileEntity fileEntity = new FileEntity.Builder()
                 .fileName(inputFileDto.getFileName())
-                .parsedFileContent(TokenizedStringSerializer.serialize(fileTokenizer.tokenize(file,
-                        ProgrammingLanguage.valueOf(this.groupRepository.getAllById(groupId).getProgrammingLanguage()))))
-                .identifiers(TokenizedStringSerializer.serialize(fileTokenizer.getAllIds()))
+                .parsedFileContent(TokenizedStringSerializer.serialize(file,
+                        ProgrammingLanguage.valueOf(this.groupRepository.getAllById(groupId).getProgrammingLanguage())))
                 .isActive(true)
                 .userId(userId)
                 .fileAuthor(inputFileDto.getFileAuthor())
@@ -120,7 +115,7 @@ public class FileManagementServiceImpl implements FileManagementService {
             } else {
                 throw new FileNotFoundException("File not found " + fileId.toString());
             }
-        } catch (MalformedURLException ex) {
+        } catch (final MalformedURLException ex) {
             throw new FileNotFoundException("File not found " + fileId.toString(), ex);
         }
     }

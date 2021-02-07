@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
-public class FileAnalysis {
+public class LongestCommonSubsequenceAnalysis {
 
     private final CharacterAnalysis characterAnalysis = new CharacterAnalysis();
     private TokenAnalysis tokenAnalysis;
@@ -18,11 +18,11 @@ public class FileAnalysis {
                           final List<String> fileBIds,
                           final boolean withSubstitution) {
         if(fileA.size() >= fileB.size()){
-            this.tokenAnalysis = new TokenAnalysis(fileAIds);
+            this.tokenAnalysis = new TokenAnalysis(fileAIds, fileBIds);
             return this.analyzeFiles(fileA, fileB, withSubstitution);
         }
         else {
-            this.tokenAnalysis = new TokenAnalysis(fileBIds);
+            this.tokenAnalysis = new TokenAnalysis(fileBIds, fileAIds);
             return this.analyzeFiles(fileB, fileA, withSubstitution);
         }
     }
@@ -38,19 +38,9 @@ public class FileAnalysis {
         final AtomicReference<Integer> secondFileCharsCapacity = new AtomicReference<>(0);
         final AtomicReference<Integer> firstFileTokensCapacity = new AtomicReference<>(0);
         final AtomicReference<Integer> secondFileTokensCapacity = new AtomicReference<>(0);
-
-        firstFile.forEach(line -> {
-            firstFileTokensCapacity.updateAndGet(v -> v + line.size());
-            final AtomicReference<Integer> lineCapacity = new AtomicReference<>(0);
-            line.forEach(token -> lineCapacity.updateAndGet(v -> v + token.length()));
-            firstFileCharsCapacity.updateAndGet(v -> v + lineCapacity.get());
-        });
-        secondFile.forEach(line -> {
-            secondFileTokensCapacity.updateAndGet(v -> v + line.size());
-            final AtomicReference<Integer> lineCapacity = new AtomicReference<>(0);
-            line.forEach(token -> lineCapacity.updateAndGet(v -> v + token.length()));
-            secondFileCharsCapacity.updateAndGet(v -> v + lineCapacity.get());
-        });
+    
+        this.getFileCapacity(firstFile, firstFileCharsCapacity, firstFileTokensCapacity);
+        this.getFileCapacity(secondFile, secondFileCharsCapacity, secondFileTokensCapacity);
     
         for (final List<String> lineFromFirstFile : firstFile) {
             longestCommonSubsequenceForChars.clear();
@@ -67,13 +57,21 @@ public class FileAnalysis {
             sumOfLongestCommonSubsequenceForTokens += Collections.max(longestCommonSubsequenceForTokens);
         }
         
-        this.tokenAnalysis.getSubstitutedIds().forEach((key, value) -> System.out.println(key + " " + value));
         return (this.calculateResultForFile(sumOfLongestCommonSubsequenceForTokens,
                 firstFileTokensCapacity.get(),
                 secondFileTokensCapacity.get())
                 + this.calculateResultForFile(sumOfLongestCommonSubsequenceForChars,
                 firstFileCharsCapacity.get(),
                 secondFileCharsCapacity.get()))/(double) 2;
+    }
+    
+    private void getFileCapacity(final List<List<String>> file, final AtomicReference<Integer> fileCharsCapacity, final AtomicReference<Integer> fileTokensCapacity) {
+        file.forEach(line -> {
+            fileTokensCapacity.updateAndGet(v -> v + line.size());
+            final AtomicReference<Integer> lineCapacity = new AtomicReference<>(0);
+            line.forEach(token -> lineCapacity.updateAndGet(v -> v + token.length()));
+            fileCharsCapacity.updateAndGet(v -> v + lineCapacity.get());
+        });
     }
     
     public Map<String, String> getTokensForSubstitution(){
@@ -83,8 +81,8 @@ public class FileAnalysis {
     private double calculateResultForFile(final Double longestCommonSubsequence,
                                          final Integer firstFileCapacity,
                                          final Integer secondFileCapacity) {
-        return  longestCommonSubsequence/
-                ((double) firstFileCapacity + (double) secondFileCapacity - longestCommonSubsequence);
+        return  longestCommonSubsequence * 2/
+                ((double) firstFileCapacity + (double) secondFileCapacity);
     }
     
     private String prepareDataForCharacterAnalysis(final List<String> data){

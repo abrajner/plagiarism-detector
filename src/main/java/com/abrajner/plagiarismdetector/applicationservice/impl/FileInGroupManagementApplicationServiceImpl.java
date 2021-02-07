@@ -38,7 +38,6 @@ public class FileInGroupManagementApplicationServiceImpl implements FileInGroupM
     }
     
     public FileReducedDto validateAndSaveNewFile(final Long groupId, final Long userId, final InputFileDto fileDto, final MultipartFile multipartFile){
-         LOGGER.info(String.valueOf(multipartFile.isEmpty()));
          return this.fileMapper.convertToReducedDto(this.fileManagementService.saveNewFile(groupId, userId, fileDto, multipartFile));
     }
     
