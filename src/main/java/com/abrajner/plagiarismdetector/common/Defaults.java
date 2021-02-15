@@ -49,6 +49,4 @@ public final class Defaults {
         public static final String PROGRAMMING_LANGUAGE = "programming_language";
         public static final String FILES = "files";
     }
-    
-    public static final String TOKENS_DELIMITER = "!delimiter!";
 }

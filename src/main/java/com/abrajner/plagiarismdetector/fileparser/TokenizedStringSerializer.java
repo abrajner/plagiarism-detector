@@ -62,7 +62,7 @@ public class TokenizedStringSerializer {
     
     public static ParsedFile deserialize(final String serializedData){
         final JSONParser parser = new JSONParser();
-        final ParsedFile parsedFile = new ParsedFile();
+        final  ParsedFile parsedFile = new ParsedFile();
         try {
             final JSONObject jsonObject = (JSONObject) parser.parse(serializedData);
             parsedFile.getFileContent()
@@ -81,43 +81,20 @@ public class TokenizedStringSerializer {
         }
     
         return parsedFile;
-//        final List<String> list = Arrays.asList(serializedData.split(Defaults.TOKENS_DELIMITER));
-//        final List<List<String>> result = new ArrayList<>();
-//        int i = 0;
-//        int j = 0;
-//        result.add(new ArrayList<>());
-//        while(i<list.size()){
-//            final String token = list.get(i);
-//            if(!"\n".equals(token)){
-//                if(!"\t".equals(token) && !" ".equals(token)) {
-//                    result.get(j).add(token);
-//                }
-//            }
-//            else {
-//                result.add(new ArrayList<>());
-//                j ++;
-//            }
-//            i ++;
-//        }
-//
-//        return result
-//                .stream()
-//                .filter(tokens -> !tokens.isEmpty())
-//                .collect(Collectors.toList());
     }
     
     private static List<List<String>> parseNestedJsonArrayToArrayList(final JSONArray jsonArray){
         final List<List<String>> list = new ArrayList<>();
-        for (int i=0; i<jsonArray.size(); i++) {
-            list.add(parseJsonArrayToArrayList((JSONArray) jsonArray.get(i)));
+        for (final Object o : jsonArray) {
+            list.add(parseJsonArrayToArrayList((JSONArray) o));
         }
         return list;
     }
     
     private static List<String> parseJsonArrayToArrayList(final JSONArray jsonArray){
         final List<String> list = new ArrayList<>();
-        for (int i=0; i<jsonArray.size(); i++) {
-            list.add((String) jsonArray.get(i));
+        for (final Object o : jsonArray) {
+            list.add((String) o);
         }
         return list;
     }

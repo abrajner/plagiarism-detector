@@ -29,28 +29,28 @@ public class LineByLineAnalysis implements AnalysisApplicationService {
                 secondFile.getIdentifiersByEquals(),
                 false);
         double codeSimilarityPercentageWithSubstitution = 0.0;
-            boolean isSubstitutionIncluded = false;
-            if(!this.longestCommonSubsequenceAnalysis.getTokensForSubstitution().isEmpty()){
-                isSubstitutionIncluded = true;
-                if(firstFile.getFileContentByInstructions().size() >= secondFile.getFileContentByInstructions().size()){
-                    codeSimilarityPercentageWithSubstitution = this.longestCommonSubsequenceAnalysis.analyze(
-                            this.replaceValues(this.longestCommonSubsequenceAnalysis.getTokensForSubstitution(), firstFile.getFileContentByInstructions()),
-                            firstFile.getIdentifiersByEquals(),
-                            secondFile.getFileContentByInstructions(),
-                            secondFile.getIdentifiersByEquals(),
-                            true);
-                }
-                else{
-                    codeSimilarityPercentageWithSubstitution = this.longestCommonSubsequenceAnalysis.analyze(
-                            firstFile.getFileContentByInstructions(),
-                            firstFile.getIdentifiersByEquals(),
-                            this.replaceValues(this.longestCommonSubsequenceAnalysis.getTokensForSubstitution(), secondFile.getFileContentByInstructions()),
-                            secondFile.getIdentifiersByEquals(),
-                            true);
-                }
-                reportEntity.setPlagiarism(codeSimilarityPercentageWithSubstitution >= 0.5);
-            }else {
-                reportEntity.setPlagiarism(codeSimilarityPercentage >= 0.5);
+        boolean isSubstitutionIncluded = false;
+        if(!this.longestCommonSubsequenceAnalysis.getTokensForSubstitution().isEmpty()){
+            isSubstitutionIncluded = true;
+            if(firstFile.getFileContentByInstructions().size() >= secondFile.getFileContentByInstructions().size()){
+                codeSimilarityPercentageWithSubstitution = this.longestCommonSubsequenceAnalysis.analyze(
+                        this.replaceValues(this.longestCommonSubsequenceAnalysis.getTokensForSubstitution(), firstFile.getFileContentByInstructions()),
+                        firstFile.getIdentifiersByEquals(),
+                        secondFile.getFileContentByInstructions(),
+                        secondFile.getIdentifiersByEquals(),
+                        true);
+            }
+            else{
+                codeSimilarityPercentageWithSubstitution = this.longestCommonSubsequenceAnalysis.analyze(
+                        firstFile.getFileContentByInstructions(),
+                        firstFile.getIdentifiersByEquals(),
+                        this.replaceValues(this.longestCommonSubsequenceAnalysis.getTokensForSubstitution(), secondFile.getFileContentByInstructions()),
+                        secondFile.getIdentifiersByEquals(),
+                        true);
+            }
+            reportEntity.setPlagiarism(codeSimilarityPercentageWithSubstitution >= 0.5);
+        }else {
+            reportEntity.setPlagiarism(codeSimilarityPercentage >= 0.5);
             }
             reportEntity.setSubstitutionIncluded(isSubstitutionIncluded);
             reportEntity.setFinished(true);

@@ -1,7 +1,5 @@
 package com.abrajner.plagiarismdetector.fileparser;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -40,7 +38,6 @@ public class FileTokenizer {
             this.streamTokenizer = new StreamTokenizer(this.fileReader);
             this.setCommentChar(programmingLanguage);
             this.streamTokenizer.ordinaryChar('/');
-            this.streamTokenizer.ordinaryChar(' ');
             this.streamTokenizer.ordinaryChar('\t');
             this.streamTokenizer.eolIsSignificant(true);
             this.currentToken = this.streamTokenizer.nextToken();
@@ -60,18 +57,8 @@ public class FileTokenizer {
         if(this.streamTokenizer.ttype == '='){
             if(!this.tokens.isEmpty()){
                 final Object previousToken = this.tokens.get(this.tokens.size() - 1);
-                if(previousToken.equals(' ')){
-                     int i = this.tokens.size() - 2;
-                     while(i>=0){
-                         if(!this.tokens.get(i).equals(' ') && this.tokens.get(i) instanceof String && !this.allIds.contains(this.tokens.get(i))){
-                             this.allIds.add(this.tokens.get(i).toString());
-                             break;
-                         }
-                         i--;
-                     }
-                }
-                if ((previousToken.equals(' ') || previousToken instanceof String) && !this.allIds.contains(previousToken)) {
-                    this.allIds.add(previousToken.toString());
+                if (previousToken instanceof String && !this.allIds.contains(previousToken)) {
+                    this.allIds.add(this.tokens.get(this.tokens.size() - 1).toString());
                 }
             }
         }
