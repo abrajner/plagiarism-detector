@@ -19,8 +19,8 @@ public class PythonParser implements LanguageParser {
     public void parse(final ParsedFile parsedFile) {
         this.parsedFile = parsedFile;
         parsedFile.getFileContentByInstructions().addAll(this.instructionsParser());
-        parsedFile.getFileContentByFunctions().addAll(this.functionsParser());
         this.identifiers.addAll(parsedFile.getIdentifiersByEquals());
+        parsedFile.getFileContentByFunctions().addAll(this.functionsParser());
         this.parsedFile.getIdentifiersByParser().addAll(this.identifiers);
     }
     
@@ -32,9 +32,7 @@ public class PythonParser implements LanguageParser {
         while(i < this.parsedFile.getFileContent().size()){
             final String token = this.parsedFile.getFileContent().get(i);
             if(!"\n".equals(token)){
-                if(!" ".equals(token)) {
-                    result.get(j).add(token);
-                }
+                result.get(j).add(token);
             }
             else {
                 result.add(new ArrayList<>());
