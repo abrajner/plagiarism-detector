@@ -1,5 +1,7 @@
 package com.abrajner.plagiarismdetector.core.user.analysisAlgorithms;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -22,12 +24,16 @@ public class LineByLineAnalysis implements AnalysisApplicationService {
     public ReportEntity performAnalysis(final ParsedFile firstFile,
             final ParsedFile secondFile) {
         final ReportEntity reportEntity = new ReportEntity();
-        final double codeSimilarityPercentage = this.longestCommonSubsequenceAnalysis.analyze(
+        double codeSimilarityPercentage = this.longestCommonSubsequenceAnalysis.analyze(
                 firstFile.getFileContentByInstructions(),
                 firstFile.getIdentifiersByEquals(),
                 secondFile.getFileContentByInstructions(),
                 secondFile.getIdentifiersByEquals(),
                 false);
+        BigDecimal bigDecimal = new BigDecimal(codeSimilarityPercentage* 100.0);
+        bigDecimal = bigDecimal.setScale(2, RoundingMode.HALF_UP);
+        codeSimilarityPercentage = bigDecimal.doubleValue();
+        
         double codeSimilarityPercentageWithSubstitution = 0.0;
         boolean isSubstitutionIncluded = false;
         if(!this.longestCommonSubsequenceAnalysis.getTokensForSubstitution().isEmpty()){
@@ -39,6 +45,9 @@ public class LineByLineAnalysis implements AnalysisApplicationService {
                         secondFile.getFileContentByInstructions(),
                         secondFile.getIdentifiersByEquals(),
                         true);
+                BigDecimal bigDecimal1 = new BigDecimal(codeSimilarityPercentageWithSubstitution* 100.0);
+                bigDecimal1 = bigDecimal1.setScale(2, RoundingMode.HALF_UP);
+                codeSimilarityPercentageWithSubstitution = bigDecimal1.doubleValue();
             }
             else{
                 codeSimilarityPercentageWithSubstitution = this.longestCommonSubsequenceAnalysis.analyze(
@@ -47,6 +56,9 @@ public class LineByLineAnalysis implements AnalysisApplicationService {
                         this.replaceValues(this.longestCommonSubsequenceAnalysis.getTokensForSubstitution(), secondFile.getFileContentByInstructions()),
                         secondFile.getIdentifiersByEquals(),
                         true);
+                BigDecimal bigDecimal2 = new BigDecimal(codeSimilarityPercentageWithSubstitution* 100.0);
+                bigDecimal2 = bigDecimal2.setScale(2, RoundingMode.HALF_UP);
+                codeSimilarityPercentageWithSubstitution = bigDecimal2.doubleValue();
             }
             reportEntity.setPlagiarism(codeSimilarityPercentageWithSubstitution >= 0.5);
         }else {
@@ -54,8 +66,8 @@ public class LineByLineAnalysis implements AnalysisApplicationService {
             }
             reportEntity.setSubstitutionIncluded(isSubstitutionIncluded);
             reportEntity.setFinished(true);
-            reportEntity.setCodeSimilarityPercentageWithSubstitution(codeSimilarityPercentageWithSubstitution * 100.0);
-            reportEntity.setCodeSimilarityPercentage(codeSimilarityPercentage * 100.0);
+            reportEntity.setCodeSimilarityPercentageWithSubstitution(codeSimilarityPercentageWithSubstitution);
+            reportEntity.setCodeSimilarityPercentage(codeSimilarityPercentage);
             return reportEntity;
     }
     

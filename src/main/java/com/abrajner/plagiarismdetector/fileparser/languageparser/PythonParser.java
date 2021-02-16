@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 import com.abrajner.plagiarismdetector.fileparser.ParsedFile;
 
 public class PythonParser implements LanguageParser {
@@ -59,7 +61,8 @@ public class PythonParser implements LanguageParser {
             boolean isNewLine = true;
             boolean isFunctionDefinitionLine = false;
             for (final String currentValue : lines) {
-                if(isFunctionDefinitionLine && !CHARACTERS_FROM_FUNCTION_DEFINITION.contains(currentValue) && !this.identifiers.contains(currentValue)){
+                if(isFunctionDefinitionLine && !CHARACTERS_FROM_FUNCTION_DEFINITION.contains(currentValue) &&
+                        !this.identifiers.contains(currentValue) && !NumberUtils.isCreatable(currentValue)){
                     this.identifiers.add(currentValue);
                 }
                 if ("\t".equals(currentValue)) {
