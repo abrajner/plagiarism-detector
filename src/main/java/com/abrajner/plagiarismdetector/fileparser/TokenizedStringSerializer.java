@@ -27,9 +27,6 @@ public class TokenizedStringSerializer {
     }
     
     private static JSONObject createJsonObjectFromParsedFile(final ParsedFile parsedFile){
-        final JSONArray parsedContent = new JSONArray();
-        parsedContent.addAll(parsedFile.getFileContent());
-    
         final JSONArray fileContentByFunctions = new JSONArray();
         parsedFile.getFileContentByFunctions().forEach(function -> {
             final JSONArray functionTokens = new JSONArray();
@@ -43,19 +40,14 @@ public class TokenizedStringSerializer {
             instructionTokens.addAll(instruction);
             fileContentByInstructions.add(instructionTokens);
         });
-    
-        final JSONArray fileIdentifiersByEquals = new JSONArray();
-        fileIdentifiersByEquals.addAll(parsedFile.getIdentifiersByEquals());
-    
+        
         final JSONArray fileIdentifiersByParser = new JSONArray();
-        fileIdentifiersByParser.addAll(parsedFile.getIdentifiersByParser());
+        fileIdentifiersByParser.addAll(parsedFile.getIdentifiers());
     
         final JSONObject jsonObject = new JSONObject();
-        jsonObject.put("parsedContent", parsedContent);
         jsonObject.put("contentByFunctions", fileContentByFunctions);
         jsonObject.put("contentByInstructions", fileContentByInstructions);
-        jsonObject.put("identifiersByEquals", fileIdentifiersByEquals);
-        jsonObject.put("identifiersByParser", fileIdentifiersByParser);
+        jsonObject.put("identifiers", fileIdentifiersByParser);
         
         return jsonObject;
     }
@@ -65,12 +57,8 @@ public class TokenizedStringSerializer {
         final  ParsedFile parsedFile = new ParsedFile();
         try {
             final JSONObject jsonObject = (JSONObject) parser.parse(serializedData);
-            parsedFile.getFileContent()
-                    .addAll(parseJsonArrayToArrayList((JSONArray) jsonObject.get("parsedContent")));
-            parsedFile.getIdentifiersByParser()
-                    .addAll(parseJsonArrayToArrayList((JSONArray) jsonObject.get("identifiersByParser")));
-            parsedFile.getIdentifiersByEquals()
-                    .addAll(parseJsonArrayToArrayList((JSONArray) jsonObject.get("identifiersByEquals")));
+            parsedFile.getIdentifiers()
+                    .addAll(parseJsonArrayToArrayList((JSONArray) jsonObject.get("identifiers")));
             parsedFile.getFileContentByInstructions()
                     .addAll(parseNestedJsonArrayToArrayList((JSONArray) jsonObject.get("contentByInstructions")));
             parsedFile.getFileContentByFunctions()

@@ -23,7 +23,7 @@ public class JavaScriptParser implements LanguageParser {
         this.identifiers.addAll(parsedFile.getIdentifiersByEquals());
         parsedFile.getFileContentByInstructions().addAll(this.instructionsParser());
         parsedFile.getFileContentByFunctions().addAll(this.functionsParser());
-        this.parsedFile.getIdentifiersByParser().addAll(this.identifiers);
+        this.parsedFile.getIdentifiers().addAll(this.identifiers);
     }
     
     private List<List<String>> instructionsParser() {

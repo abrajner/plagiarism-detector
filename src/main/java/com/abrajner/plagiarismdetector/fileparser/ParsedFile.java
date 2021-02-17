@@ -11,7 +11,7 @@ public class ParsedFile {
     
     private final List<List<String>> fileContentByInstructions = new ArrayList<>();
     
-    private final List<String> identifiersByParser = new ArrayList<>();
+    private final List<String> identifiers = new ArrayList<>();
     
     private final List<String> identifiersByEquals = new ArrayList<>();
     
@@ -27,8 +27,8 @@ public class ParsedFile {
         return this.fileContentByInstructions;
     }
     
-    public List<String> getIdentifiersByParser() {
-        return this.identifiersByParser;
+    public List<String> getIdentifiers() {
+        return this.identifiers;
     }
     
     public List<String> getIdentifiersByEquals() {
