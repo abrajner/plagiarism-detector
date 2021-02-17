@@ -60,9 +60,9 @@ public class LineByLineAnalysis implements AnalysisApplicationService {
                 bigDecimal2 = bigDecimal2.setScale(2, RoundingMode.HALF_UP);
                 codeSimilarityPercentageWithSubstitution = bigDecimal2.doubleValue();
             }
-            reportEntity.setPlagiarism(codeSimilarityPercentageWithSubstitution >= 0.5);
+            reportEntity.setPlagiarism(codeSimilarityPercentageWithSubstitution >= 50);
         }else {
-            reportEntity.setPlagiarism(codeSimilarityPercentage >= 0.5);
+            reportEntity.setPlagiarism(codeSimilarityPercentage >= 50);
             }
             reportEntity.setSubstitutionIncluded(isSubstitutionIncluded);
             reportEntity.setFinished(true);
