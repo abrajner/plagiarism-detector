@@ -55,12 +55,22 @@ public class PythonParser implements LanguageParser {
         int k = 0;
         int functionNumberOfTabs = 0;
         boolean isFunctionModeEntered = false;
+        boolean isStringEntered = false;
         result.add(new ArrayList<>());
         for (final List<String> lines : fileContent) {
             int currentNumberOfTabs = 0;
             boolean isNewLine = true;
             boolean isFunctionDefinitionLine = false;
             for (final String currentValue : lines) {
+                if("\"".equals(currentValue)){
+                    isStringEntered = !isStringEntered;
+                    result.get(k).add(currentValue);
+                    continue;
+                }
+                if(isStringEntered){
+                    result.get(k).add(currentValue);
+                    continue;
+                }
                 if(isFunctionDefinitionLine && !CHARACTERS_FROM_FUNCTION_DEFINITION.contains(currentValue) &&
                         !this.identifiers.contains(currentValue) && !NumberUtils.isCreatable(currentValue)){
                     this.identifiers.add(currentValue);

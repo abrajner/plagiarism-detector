@@ -45,6 +45,7 @@ public class CommonParser {
         int k = 0;
         boolean isFunctionEntered = false;
         int numberOfEnteredBrackets = 0;
+        boolean isStringEntered = false;
         result.add(new ArrayList<>());
         for(final List<String> line: fileContent){
             boolean isInstructionWithReturnType = false;
@@ -53,6 +54,14 @@ public class CommonParser {
                 createNewArrayForFunction = true;
             }
             for(final String currentValue: line){
+                if("\"".equals(currentValue)){
+                    isStringEntered = !isStringEntered;
+                    result.get(k).add(currentValue);
+                }
+                if(isStringEntered){
+                    result.get(k).add(currentValue);
+                    continue;
+                }
                 if(returnedTypes.contains(currentValue)){
                     if(createNewArrayForFunction){
                         createNewArrayForFunction = false;
