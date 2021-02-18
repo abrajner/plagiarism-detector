@@ -31,14 +31,8 @@ public class ReportEntity {
     @Column(name = Defaults.ReportEntityColumns.IS_PLAGIARISM)
     private Boolean isPlagiarism;
     
-    @Column(name = Defaults.ReportEntityColumns.IS_SUBSTITUTION_INCLUDED)
-    private Boolean isSubstitutionIncluded;
-    
     @Column(name = Defaults.ReportEntityColumns.SIMILARITY_PERCENTAGE)
     private double codeSimilarityPercentage;
-    
-    @Column(name = Defaults.ReportEntityColumns.SIMILARITY_PERCENTAGE_WITH_SUBSTITUTION)
-    private double codeSimilarityPercentageWithSubstitution;
     
     @Column(name = Defaults.ReportEntityColumns.IS_FINISHED)
     private boolean isFinished;
@@ -49,11 +43,9 @@ public class ReportEntity {
     public ReportEntity(final Builder builder){
         this.setCodeSimilarityPercentage(builder.codeSimilarityPercentage);
         this.setPlagiarism(builder.isPlagiarism);
-        this.setCodeSimilarityPercentageWithSubstitution(builder.codeSimilarityPercentageWithSubstitution);
         this.setFinished(builder.isFinished);
         this.setReportName(builder.reportName);
         this.setGroupId(builder.groupId);
-        this.setSubstitutionIncluded(builder.isSubstitutionIncluded);
     }
     
     public void setId(final Long userId) {
@@ -100,22 +92,6 @@ public class ReportEntity {
         this.isFinished = finished;
     }
     
-    public Boolean getSubstitutionIncluded() {
-        return this.isSubstitutionIncluded;
-    }
-    
-    public void setSubstitutionIncluded(final Boolean substitutionIncluded) {
-        this.isSubstitutionIncluded = substitutionIncluded;
-    }
-    
-    public double getCodeSimilarityPercentageWithSubstitution() {
-        return this.codeSimilarityPercentageWithSubstitution;
-    }
-    
-    public void setCodeSimilarityPercentageWithSubstitution(final double codeSimilarityPercentageWithSubstitution) {
-        this.codeSimilarityPercentageWithSubstitution = codeSimilarityPercentageWithSubstitution;
-    }
-    
     public void setCodeSimilarityPercentage(final double codeSimilarityPercentage) {
         this.codeSimilarityPercentage = codeSimilarityPercentage;
     }
@@ -127,9 +103,7 @@ public class ReportEntity {
                 ", reportName='" + this.reportName + '\'' +
                 ", groupId=" + this.groupId +
                 ", isPlagiarism=" + this.isPlagiarism +
-                ", isSubstitutionIncluded=" + this.isSubstitutionIncluded +
                 ", codeSimilarityPercentage=" + this.codeSimilarityPercentage +
-                ", codeSimilarityPercentageWithSubstitution=" + this.codeSimilarityPercentageWithSubstitution +
                 ", isFinished=" + this.isFinished +
                 '}';
     }
@@ -142,28 +116,24 @@ public class ReportEntity {
             return false;
         final ReportEntity that = (ReportEntity) o;
         return Double.compare(that.codeSimilarityPercentage, this.codeSimilarityPercentage) == 0 &&
-                Double.compare(that.codeSimilarityPercentageWithSubstitution, this.codeSimilarityPercentageWithSubstitution) == 0 &&
                 this.isFinished == that.isFinished &&
                 Objects.equals(this.id, that.id) &&
                 Objects.equals(this.reportName, that.reportName) &&
                 Objects.equals(this.groupId, that.groupId) &&
-                Objects.equals(this.isPlagiarism, that.isPlagiarism) &&
-                Objects.equals(this.isSubstitutionIncluded, that.isSubstitutionIncluded);
+                Objects.equals(this.isPlagiarism, that.isPlagiarism);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(this.id, this.reportName, this.groupId, this.isPlagiarism, this.isSubstitutionIncluded, this.codeSimilarityPercentage, this.codeSimilarityPercentageWithSubstitution, this.isFinished);
+        return Objects.hash(this.id, this.reportName, this.groupId, this.isPlagiarism, this.codeSimilarityPercentage, this.isFinished);
     }
     
     public static final class Builder{
         private boolean isPlagiarism;
         private double codeSimilarityPercentage;
-        private double codeSimilarityPercentageWithSubstitution;
         private boolean isFinished;
         private String reportName;
         private Long groupId;
-        private Boolean isSubstitutionIncluded;
     
         public Builder groupId(final Long groupId){
             this.groupId = groupId;
@@ -180,21 +150,12 @@ public class ReportEntity {
             return this;
         }
     
-        public Builder codeSimilarityPercentageWithSubstitution(final double codeSimilarityPercentageWithSubstitution){
-            this.codeSimilarityPercentageWithSubstitution = codeSimilarityPercentageWithSubstitution;
-            return this;
-        }
-    
+        
         public Builder isFinished(final boolean isFinished){
             this.isFinished = isFinished;
             return this;
         }
         
-        public Builder isSubstitutionIncluded(final boolean isSubstitutionIncluded){
-            this.isSubstitutionIncluded = isSubstitutionIncluded;
-            return this;
-        }
-    
         public Builder reportName(final String reportName){
             this.reportName = reportName;
             return this;

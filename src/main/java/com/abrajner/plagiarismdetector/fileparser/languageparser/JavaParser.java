@@ -12,15 +12,17 @@ public class JavaParser implements LanguageParser {
     
     private final List<String> identifiers = new ArrayList<>();
     
-    final private static List<String> RETURNED_TYPES = Arrays.asList("int", "Integer", "void", "double", "Double", "long", "Long", "char", "Character",
-            "float", "Float", "enum", "short", "Short", "boolean", "Boolean", "Object", "List", "Map", "private", "protected", "public", "static", "byte");
+    final private static List<String> RETURNED_TYPES = Arrays.asList("int", "Integer", "void", "double", "Double", "long",
+            "Long", "char", "Character", "float", "Float", "enum", "short", "Short", "boolean", "Boolean", "Object",
+            "List", "Map", "private", "byte");
     
     final private static List<String> KEYWORDS = new ArrayList<>(RETURNED_TYPES);
     
     @Override
     public void parse(final ParsedFile parsedFile) {
         KEYWORDS.addAll(Arrays.asList("{", "}", "[", "]", ";", "=", "(", ")", ",", "new", "class", "this", ".", "const",
-                "sizeof", "final", "true", "false", "null", "<", ">", "&", "abstract", "extends", "implements", "interface", "super"));
+                "sizeof", "final", "true", "false", "null", "<", ">", "&", "abstract", "extends", "implements", "interface",
+                "super", "protected", "public", "static"));
         this.parsedFile = parsedFile;
         this.identifiers.addAll(parsedFile.getIdentifiersByEquals());
         parsedFile.getFileContentByInstructions().addAll(this.instructionsParser());

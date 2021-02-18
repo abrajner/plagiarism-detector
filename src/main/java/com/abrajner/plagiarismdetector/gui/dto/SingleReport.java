@@ -20,11 +20,7 @@ public class SingleReport {
     
     private double codeSimilarityPercentage;
     
-    private double codeSimilarityPercentageWithSubstitution;
-    
     private boolean isPlagiarism;
-    
-    private boolean isSubstitutionIncluded;
     
     public Long getFirstFileId() {
         return this.firstFileId;
@@ -82,14 +78,6 @@ public class SingleReport {
         this.codeSimilarityPercentage = codeSimilarityPercentage;
     }
     
-    public double getCodeSimilarityPercentageWithSubstitution() {
-        return this.codeSimilarityPercentageWithSubstitution;
-    }
-    
-    public void setCodeSimilarityPercentageWithSubstitution(final double codeSimilarityPercentageWithSubstitution) {
-        this.codeSimilarityPercentageWithSubstitution = codeSimilarityPercentageWithSubstitution;
-    }
-    
     public boolean isPlagiarism() {
         return this.isPlagiarism;
     }
@@ -98,27 +86,17 @@ public class SingleReport {
         this.isPlagiarism = plagiarism;
     }
     
-    public boolean isSubstitutionIncluded() {
-        return this.isSubstitutionIncluded;
-    }
-    
-    public void setSubstitutionIncluded(final boolean substitutionIncluded) {
-        this.isSubstitutionIncluded = substitutionIncluded;
-    }
-    
     @Override
     public String toString() {
         return "SingleReport{" +
-                "firstFileId=" + firstFileId +
-                ", secondFileId=" + secondFileId +
-                ", firstFileName='" + firstFileName + '\'' +
-                ", secondFileName='" + secondFileName + '\'' +
-                ", firstFileAuthor='" + firstFileAuthor + '\'' +
-                ", secondFileAuthor='" + secondFileAuthor + '\'' +
-                ", codeSimilarityPercentage=" + codeSimilarityPercentage +
-                ", codeSimilarityPercentageWithSubstitution=" + codeSimilarityPercentageWithSubstitution +
-                ", isPlagiarism=" + isPlagiarism +
-                ", isSubstitutionIncluded=" + isSubstitutionIncluded +
+                "firstFileId=" + this.firstFileId +
+                ", secondFileId=" + this.secondFileId +
+                ", firstFileName='" + this.firstFileName + '\'' +
+                ", secondFileName='" + this.secondFileName + '\'' +
+                ", firstFileAuthor='" + this.firstFileAuthor + '\'' +
+                ", secondFileAuthor='" + this.secondFileAuthor + '\'' +
+                ", codeSimilarityPercentage=" + this.codeSimilarityPercentage +
+                ", isPlagiarism=" + this.isPlagiarism +
                 '}';
     }
     
@@ -130,9 +108,7 @@ public class SingleReport {
             return false;
         final SingleReport that = (SingleReport) o;
         return Double.compare(that.codeSimilarityPercentage, this.codeSimilarityPercentage) == 0 &&
-                Double.compare(that.codeSimilarityPercentageWithSubstitution, this.codeSimilarityPercentageWithSubstitution) == 0 &&
                 this.isPlagiarism == that.isPlagiarism &&
-                this.isSubstitutionIncluded == that.isSubstitutionIncluded &&
                 Objects.equals(this.firstFileId, that.firstFileId) &&
                 Objects.equals(this.secondFileId, that.secondFileId) &&
                 Objects.equals(this.firstFileName, that.firstFileName) &&
@@ -143,6 +119,6 @@ public class SingleReport {
     
     @Override
     public int hashCode() {
-        return Objects.hash(this.firstFileId, this.secondFileId, this.firstFileName, this.secondFileName, this.firstFileAuthor, this.secondFileAuthor, this.codeSimilarityPercentage, this.codeSimilarityPercentageWithSubstitution, this.isPlagiarism, this.isSubstitutionIncluded);
+        return Objects.hash(this.firstFileId, this.secondFileId, this.firstFileName, this.secondFileName, this.firstFileAuthor, this.secondFileAuthor, this.codeSimilarityPercentage, this.isPlagiarism);
     }
 }

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class CharacterAnalysis{
     
     public double analyze(final String firstFile, final String secondFile) {
@@ -28,7 +31,6 @@ public class CharacterAnalysis{
     private double calculateResultForLine(final Integer longestCommonSubsequence,
                                           final Integer charactersInFirstLine,
                                           final Integer charactersInSecondLine){
-        final Integer minLine = (charactersInFirstLine >= charactersInSecondLine) ? charactersInSecondLine : charactersInFirstLine;
-        return ((double)longestCommonSubsequence/ (double) minLine) * (double) longestCommonSubsequence;
+        return ((double) (longestCommonSubsequence * 2)/ (double) (charactersInFirstLine + charactersInSecondLine));
     }
 }

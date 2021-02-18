@@ -69,9 +69,7 @@ public class ReportServiceImpl implements ReportService {
                     singleReport.setSecondFileId(filesInReport.get(1).getId());
                     singleReport.setSecondFileName(filesInReport.get(1).getFileName());
                     singleReport.setSecondFileAuthor(filesInReport.get(1).getFileAuthor());
-                    singleReport.setSubstitutionIncluded(reportEntity.getSubstitutionIncluded());
                     singleReport.setPlagiarism(reportEntity.getPlagiarism());
-                    singleReport.setCodeSimilarityPercentageWithSubstitution(reportEntity.getCodeSimilarityPercentageWithSubstitution());
                     reports.add(singleReport);
                 });
                 reportsResponse.setReportsForFiles(reports);
