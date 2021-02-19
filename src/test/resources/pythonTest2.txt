@@ -1,0 +1,47 @@
+#dzielenie dwoch liczb
+def dzielenie(z, k):
+	printf("Divide");
+	return z / k
+
+#dodawanie dwoch liczb
+def dodawanie(z, k):
+	printf("Add");
+	return k + z
+
+#mnozenie dwoch liczb
+def mnozenie(z, k):
+	printf("Multiply");
+	return z * k
+
+#odejmowanie dwoch liczb
+def odejmowanie(z, k):
+	printf("Subtract");
+	return z - k
+
+print("Select operation.")
+print("1.Add")
+print("2.Subtract")
+print("3.Multiply")
+print("4.Divide")
+
+while True:
+	wybor = input("Enter choice(1/2/3/4): ")
+
+	if wybor in ('1', '2', '3', '4'):
+		liczba1 = float(input("Enter first number: "))
+		liczba2 = float(input("Enter second number: "))
+
+		if wybor == '1':
+			print(liczba1, "+", liczba2, "=", dodawanie(liczba1, liczba2))
+
+		elif wybor == '2':
+			print(liczba1, "-", liczba2, "=", odejmowanie(liczba1, liczba2))
+
+		elif wybor == '3':
+			print(liczba1, "*", liczba2, "=", mnozenie(liczba1, liczba2))
+
+		elif wybor == '4':
+			print(liczba1, "/", liczba2, "=", dzielenie(liczba1, liczba2))
+		break
+	else:
+		print("Invalid Input")
