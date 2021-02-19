@@ -14,7 +14,7 @@ public class JavaParser implements LanguageParser {
     
     final private static List<String> RETURNED_TYPES = Arrays.asList("int", "Integer", "void", "double", "Double", "long",
             "Long", "char", "Character", "float", "Float", "enum", "short", "Short", "boolean", "Boolean", "Object",
-            "List", "Map", "private", "byte");
+            "List", "Map", "byte", "String");
     
     final private static List<String> KEYWORDS = new ArrayList<>(RETURNED_TYPES);
     
@@ -22,7 +22,7 @@ public class JavaParser implements LanguageParser {
     public void parse(final ParsedFile parsedFile) {
         KEYWORDS.addAll(Arrays.asList("{", "}", "[", "]", ";", "=", "(", ")", ",", "new", "class", "this", ".", "const",
                 "sizeof", "final", "true", "false", "null", "<", ">", "&", "abstract", "extends", "implements", "interface",
-                "super", "protected", "public", "static"));
+                "super", "protected", "public", "static", "private"));
         this.parsedFile = parsedFile;
         this.identifiers.addAll(parsedFile.getIdentifiersByEquals());
         parsedFile.getFileContentByInstructions().addAll(this.instructionsParser());

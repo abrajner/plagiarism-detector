@@ -13,17 +13,21 @@ import org.springframework.web.multipart.MultipartFile;
 public class TokenizedStringSerializer {
     
     public static String serialize(final MultipartFile file, final ProgrammingLanguage programmingLanguage){
+        return createJsonObjectFromParsedFile(parseFile(file, programmingLanguage)).toString();
+    }
+    
+    public static ParsedFile parseFile(final MultipartFile file, final ProgrammingLanguage programmingLanguage){
         final FileTokenizer fileTokenizer = new FileTokenizer();
         final List<String> listOfTokens = fileTokenizer.tokenize(file, programmingLanguage).stream()
                 .map(Object::toString)
                 .collect(Collectors.toList());
-        
+    
         final ParsedFile parsedFile = new ParsedFile();
         parsedFile.getFileContent().addAll(listOfTokens);
         fileTokenizer.getAllIds().forEach(id -> parsedFile.getIdentifiersByEquals().add(id.toString()));
         programmingLanguage.parse(parsedFile);
-
-        return createJsonObjectFromParsedFile(parsedFile).toString();
+        
+        return parsedFile;
     }
     
     private static JSONObject createJsonObjectFromParsedFile(final ParsedFile parsedFile){

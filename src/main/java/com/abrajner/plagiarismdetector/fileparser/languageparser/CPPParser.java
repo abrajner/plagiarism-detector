@@ -12,7 +12,7 @@ public class CPPParser implements LanguageParser{
     private final List<String> identifiers = new ArrayList<>();
     
     final private static List<String> RETURNED_TYPES = Arrays.asList("int", "void", "double", "long", "char",
-            "float", "enum", "short", "struct", "union", "bool", "namespace", "auto", "unsigned", "signed");
+            "float", "enum", "short", "struct", "union", "bool", "auto", "unsigned", "signed");
     
     final private static List<String> KEYWORDS = new ArrayList<>(RETURNED_TYPES);
     

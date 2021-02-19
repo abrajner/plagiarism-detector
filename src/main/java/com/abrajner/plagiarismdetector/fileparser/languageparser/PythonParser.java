@@ -84,7 +84,7 @@ public class PythonParser implements LanguageParser {
                 if (isFunctionModeEntered && functionNumberOfTabs < currentNumberOfTabs) {
                     result.get(k).add(currentValue);
                     continue;
-                }else if (isFunctionModeEntered && isNewLine) {
+                } else if(isNewLine && isFunctionModeEntered && functionNumberOfTabs >= currentNumberOfTabs){
                     functionNumberOfTabs = 0;
                     result.add(new ArrayList<>());
                     isFunctionModeEntered = false;
@@ -105,7 +105,6 @@ public class PythonParser implements LanguageParser {
                 result.get(k).add(currentValue);
                 isNewLine = false;
             }
-            result.get(k).add("\n");
         }
         return result;
     }

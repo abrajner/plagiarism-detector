@@ -1,6 +1,7 @@
 package com.abrajner.plagiarismdetector.fileparser.languageparser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,7 +63,7 @@ public class CommonParser {
                     result.get(k).add(currentValue);
                     continue;
                 }
-                if(returnedTypes.contains(currentValue)){
+                if(returnedTypes.contains(currentValue) || Arrays.asList("protected", "public", "static", "private").contains(currentValue)){
                     if(createNewArrayForFunction){
                         createNewArrayForFunction = false;
                         result.add(new ArrayList<>());
